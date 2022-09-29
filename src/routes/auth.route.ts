@@ -6,7 +6,7 @@ import { ACCESS_TOKEN_SECRET } from "../config/constants";
 import { loginInputSchema } from "../dto/login.input";
 import { routeMiddleware } from "../middlewares/route.middleware";
 import { HttpStatus } from "../nsw/types/http-status";
-import { findUserByEmail } from "../services/user.service";
+import { findByEmail } from "../services/user.service";
 import { validate } from "../utils/validate";
 
 const router = Router();
@@ -16,7 +16,7 @@ router.post(
   routeMiddleware(async (req, res) => {
     const { email, password } = await validate(req.body, loginInputSchema);
 
-    const user = await findUserByEmail(email);
+    const user = await findByEmail(email);
 
     if (!user) throw new NotFound(`User not found with email ${email}`);
 

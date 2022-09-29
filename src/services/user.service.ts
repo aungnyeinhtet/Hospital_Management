@@ -1,7 +1,7 @@
 import { User } from "@prisma/client";
 import * as userRepository from "../repositories/user.repository";
 
-export const findManyUsers = () => {
+export const findMany = () => {
   //
 };
 
@@ -11,8 +11,8 @@ export const findManyUsers = () => {
  * @param id string
  * @returns Promise<User>
  */
-export const findUserById = async (id: string): Promise<User> => {
-  return await userRepository.findUserById(id);
+export const findById = async (id: string): Promise<User> => {
+  return await userRepository.findById(id);
 };
 
 /**
@@ -21,8 +21,8 @@ export const findUserById = async (id: string): Promise<User> => {
  * @param email string
  * @returns Promise<User>
  */
-export const findUserByEmail = async (email: string): Promise<User> => {
-  return await userRepository.findUserByEmail(email);
+export const findByEmail = async (email: string): Promise<User> => {
+  return await userRepository.findByEmail(email);
 };
 
 export const createUser = async ({}) => {

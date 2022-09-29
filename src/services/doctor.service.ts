@@ -10,30 +10,30 @@ import * as doctorRepository from "../repositories/doctor.repository";
  * @param param0 FindManyDoctorArgs
  * @returns Promise<Doctor[]>
  */
-export const findManyDoctor = async ({ take, skip }: FindManyDoctorArgs) => {
+export const findMany = async ({ take, skip }: FindManyDoctorArgs) => {
   return await doctorRepository.findMany({ take, skip });
 };
 
-export const createDoctor = async ({ name }: CreateDoctorInput) => {
+export const create = async ({ name }: CreateDoctorInput) => {
   return await doctorRepository.create({ name });
 };
 
-export const findDoctorBydId = async (id: string) => {
+export const findBydId = async (id: string) => {
   return await doctorRepository.findById(id);
 };
 
-export const findDoctorBydIdOrFail = async (id: string) => {
-  const doctor = await findDoctorBydId(id);
+export const findBydIdOrFail = async (id: string) => {
+  const doctor = await findBydId(id);
 
   if (!doctor) throw new NotFound(`Doctor not found with id ${id}`);
 
   return doctor;
 };
 
-export const updateDoctor = async (id: string, { name }: UpdateDoctorInput) => {
+export const update = async (id: string, { name }: UpdateDoctorInput) => {
   return await doctorRepository.update(id, { name });
 };
 
-export const deleteDoctorById = async (id: string) => {
+export const deleteById = async (id: string) => {
   return await doctorRepository.deleteById(id);
 };

@@ -1,7 +1,7 @@
 import { InternalServerError } from "http-errors";
 import prisma from "../lib/prisma";
 
-export const findUserById = async (id: string) => {
+export const findById = async (id: string) => {
   try {
     return await prisma.user.findFirst({
       where: {
@@ -13,7 +13,7 @@ export const findUserById = async (id: string) => {
   }
 };
 
-export const findUserByEmail = async (email: string) => {
+export const findByEmail = async (email: string) => {
   try {
     return await prisma.user.findFirst({
       where: {

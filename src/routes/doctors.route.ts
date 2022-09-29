@@ -5,13 +5,7 @@ import { updateDoctorInputSchema } from "../dto/update-doctor.input";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { routeMiddleware } from "../middlewares/route.middleware";
 import { HttpStatus } from "../nsw/types/http-status";
-import {
-  createDoctor,
-  deleteDoctorById,
-  findDoctorBydIdOrFail,
-  findManyDoctor,
-  updateDoctor,
-} from "../services/doctor.service";
+import * as doctorService from "../services/doctor.service";
 import { validate } from "../utils/validate";
 
 const router = Router();
@@ -26,7 +20,7 @@ router.get(
   routeMiddleware(async (req, res) => {
     const { take, skip } = await validate(req.query, findManyDoctorArgsSchema);
 
-    const doctors = await findManyDoctor({ take, skip });
+    const doctors = await doctorService.findMany({ take, skip });
 
     res.status(HttpStatus.OK).json({
       data: doctors,
@@ -45,7 +39,7 @@ router.post(
   routeMiddleware(async (req, res) => {
     const { name } = await validate(req.body, createDoctorInputSchema);
 
-    const doctor = await createDoctor({ name });
+    const doctor = await doctorService.create({ name });
 
     res.status(HttpStatus.CREATED).json({
       data: doctor,
@@ -61,7 +55,7 @@ router.post(
 router.get(
   "/:id",
   routeMiddleware(async (req, res) => {
-    const doctor = await findDoctorBydIdOrFail(req.params.id);
+    const doctor = await doctorService.findBydIdOrFail(req.params.id);
 
     res.status(HttpStatus.OK).json({
       data: doctor,
@@ -81,9 +75,9 @@ router.patch(
 
     const doctorId = req.params.id;
 
-    await findDoctorBydIdOrFail(doctorId);
+    await doctorService.findBydIdOrFail(doctorId);
 
-    const doctor = await updateDoctor(doctorId, { name });
+    const doctor = await doctorService.update(doctorId, { name });
 
     res.status(HttpStatus.OK).json({
       data: doctor,
@@ -101,9 +95,9 @@ router.delete(
   routeMiddleware(async (req, res) => {
     const doctorId = req.params.id;
 
-    await findDoctorBydIdOrFail(doctorId);
+    await doctorService.findBydIdOrFail(doctorId);
 
-    await deleteDoctorById(doctorId);
+    await doctorService.deleteById(doctorId);
 
     res.status(HttpStatus.OK).json({
       message: `Doctor with id ${doctorId} deleted successfully`,
