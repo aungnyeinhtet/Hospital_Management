@@ -18,7 +18,7 @@ import routes from "./routes";
 
   app.listen(PORT, () => {
     console.log(
-      `[${process.env.NODE_ENV}] Server is up and running on PORT :${PORT}`
+      `[${process.env.NODE_ENV}] Server is up and running on PORT :${PORT}`,
     );
   });
 })();

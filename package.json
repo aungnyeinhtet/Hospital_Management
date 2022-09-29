@@ -8,7 +8,7 @@
     "email": "naysoewin9@gmail.com"
   },
   "scripts": {
-    "serve": "nodemon dist/server.js",
+    "serve": "nodemon dist/src/server.js",
     "tsc:watch": "tsc -w",
     "predev": "rimraf dist && yarn build",
     "dev": "NODE_ENV=development concurrently -k -p \"[{name}]\" -n \"tsc,nodemon\" -c \"cyan.bold,green.bold\" \"yarn tsc:watch\" \"yarn serve\"",
@@ -21,8 +21,6 @@
   "dependencies": {
     "@hapi/boom": "^10.0.0",
     "@types/bcrypt": "^5.0.0",
-    "apollo-server-core": "^3.10.2",
-    "apollo-server-express": "^3.10.2",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "bson": "^4.7.0",
