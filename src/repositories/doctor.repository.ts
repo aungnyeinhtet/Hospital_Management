@@ -1,4 +1,5 @@
 import { InternalServerError } from "http-errors";
+import { UpdateDoctorInput } from "src/dto/update-doctor.input";
 import { DEFAULT_TAKE } from "../config/constants";
 import { CreateDoctorInput } from "../dto/create-doctor.input";
 import { FindManyDoctorArgs } from "../dto/find-many-doctor.args";
@@ -40,6 +41,19 @@ export const findById = async (id: string) => {
     return await prisma.doctor.findFirst({
       where: {
         id,
+      },
+    });
+  } catch (error) {}
+};
+
+export const update = async (id: string, { name }: UpdateDoctorInput) => {
+  try {
+    return await prisma.doctor.update({
+      where: {
+        id,
+      },
+      data: {
+        name,
       },
     });
   } catch (error) {}

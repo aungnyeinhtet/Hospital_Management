@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { createDoctorInputSchema } from "../dto/create-doctor.input";
 import { findManyDoctorArgsSchema } from "../dto/find-many-doctor.args";
+import { updateDoctorInputSchema } from "../dto/update-doctor.input";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { routeMiddleware } from "../middlewares/route.middleware";
 import { HttpStatus } from "../nsw/types/http-status";
@@ -8,6 +9,7 @@ import {
   createDoctor,
   findDoctorBydIdOrFail,
   findManyDoctor,
+  updateDoctor,
 } from "../services/doctor.service";
 import { validate } from "../utils/validate";
 
@@ -70,7 +72,17 @@ router.get(
 router.patch(
   "/:id",
   routeMiddleware(async (req, res) => {
-    // TODO
+    const { name } = await validate(req.body, updateDoctorInputSchema);
+
+    const doctorId = req.params.id;
+
+    await findDoctorBydIdOrFail(doctorId);
+
+    const doctor = await updateDoctor(doctorId, { name });
+
+    res.status(HttpStatus.OK).json({
+      data: doctor,
+    });
   }),
 );
 
