@@ -1,7 +1,7 @@
 import { NotFound } from "http-errors";
-import { UpdateDoctorInput } from "src/dto/update-doctor.input";
 import { CreateDoctorInput } from "../dto/create-doctor.input";
 import { FindManyDoctorArgs } from "../dto/find-many-doctor.args";
+import { UpdateDoctorInput } from "../dto/update-doctor.input";
 import * as doctorRepository from "../repositories/doctor.repository";
 
 /**

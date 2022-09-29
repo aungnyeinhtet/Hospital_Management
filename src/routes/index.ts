@@ -3,6 +3,7 @@ import { HttpStatus } from "../nsw/types/http-status";
 import authRoutes from "./auth.route";
 import doctorRoutes from "./doctors.route";
 import hospitalRoutes from "./hospitals.route";
+import patientRoutes from "./patients.route";
 
 const router = Router();
 
@@ -14,6 +15,7 @@ router.get("/", (req, res) => {
 
 router.use("/doctors", doctorRoutes);
 router.use("/hospitals", hospitalRoutes);
+router.use("/patients", patientRoutes);
 router.use(authRoutes);
 
 export default router;

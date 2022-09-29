@@ -1,8 +1,8 @@
 import { InternalServerError } from "http-errors";
-import { UpdateDoctorInput } from "src/dto/update-doctor.input";
 import { DEFAULT_TAKE } from "../config/constants";
 import { CreateDoctorInput } from "../dto/create-doctor.input";
 import { FindManyDoctorArgs } from "../dto/find-many-doctor.args";
+import { UpdateDoctorInput } from "../dto/update-doctor.input";
 import prisma from "../lib/prisma";
 
 /**

@@ -1,13 +1,13 @@
 import { InternalServerError } from "http-errors";
 import { DEFAULT_TAKE } from "../config/constants";
-import { CreateHospitalInput } from "../dto/create-hospital.input";
-import { FindManyHospitalArgs } from "../dto/find-many-hospital.args";
-import { UpdateHospitalInput } from "../dto/update-hospital.input";
+import { CreatePatientInput } from "../dto/create-patient.input";
+import { FindManyPatientArgs } from "../dto/find-many-patient.args";
+import { UpdatePatientInput } from "../dto/update-patient.input";
 import prisma from "../lib/prisma";
 
-export const findMany = async ({ take, skip }: FindManyHospitalArgs) => {
+export const findMany = async ({ take, skip }: FindManyPatientArgs) => {
   try {
-    return await prisma.hospital.findMany({
+    return await prisma.patient.findMany({
       take: Number(take) || DEFAULT_TAKE,
       skip: Number(skip) || undefined,
     });
@@ -17,9 +17,9 @@ export const findMany = async ({ take, skip }: FindManyHospitalArgs) => {
   }
 };
 
-export const create = async ({ name }: CreateHospitalInput) => {
+export const create = async ({ name }: CreatePatientInput) => {
   try {
-    return await prisma.hospital.create({
+    return await prisma.patient.create({
       data: {
         name,
       },
@@ -32,7 +32,7 @@ export const create = async ({ name }: CreateHospitalInput) => {
 
 export const findById = async (id: string) => {
   try {
-    return await prisma.hospital.findFirst({
+    return await prisma.patient.findFirst({
       where: {
         id,
       },
@@ -43,9 +43,9 @@ export const findById = async (id: string) => {
   }
 };
 
-export const update = async (id: string, { name }: UpdateHospitalInput) => {
+export const update = async (id: string, { name }: UpdatePatientInput) => {
   try {
-    return await prisma.hospital.update({
+    return await prisma.patient.update({
       where: {
         id,
       },
@@ -61,7 +61,7 @@ export const update = async (id: string, { name }: UpdateHospitalInput) => {
 
 export const deleteById = async (id: string) => {
   try {
-    return await prisma.hospital.delete({
+    return await prisma.patient.delete({
       where: {
         id,
       },
