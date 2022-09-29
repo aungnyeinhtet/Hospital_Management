@@ -1,7 +1,9 @@
 import prisma from "../../src/lib/prisma";
+import { specialistSeeder } from "./specialistSeeder";
 import { userSeeder } from "./userSeeder";
 
 (async () => {
+  await specialistSeeder();
   await userSeeder();
 })()
   .catch((e) => {
