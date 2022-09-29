@@ -4,7 +4,7 @@ import { BadRequest, NotFound } from "http-errors";
 import jwt from "jsonwebtoken";
 import { ACCESS_TOKEN_SECRET } from "../config/constants";
 import { loginInputSchema } from "../dto/login.input";
-import { routeMiddleware } from "../middlewares/routeMiddleware";
+import { routeMiddleware } from "../middlewares/route.middleware";
 import { HttpStatus } from "../nsw/types/http-status";
 import { findUserByEmail } from "../services/user.service";
 import { validate } from "../utils/validate";
