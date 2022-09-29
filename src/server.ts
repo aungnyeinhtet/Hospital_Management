@@ -1,5 +1,11 @@
+import compression from "compression";
 import express from "express";
+import expressRateLimit from "express-rate-limit";
+import helmet from "helmet";
 import "reflect-metadata";
+import { PORT } from "./config/constants";
+import passport from "./lib/passport";
+import handleError from "./middlewares/handleErrors";
 import routes from "./routes";
 
 /**
@@ -9,16 +15,24 @@ import routes from "./routes";
  */
 (async () => {
   const app = express();
+  app.set(PORT, process.env.PORT || 4000);
 
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
+  app.use(expressRateLimit({ windowMs: 60 * 1000, max: 30 }));
+  app.use(helmet());
+  app.use(compression());
+  app.use(passport.initialize());
+
   app.use(routes);
 
-  const PORT = process.env.PORT || 4000;
+  app.use(handleError);
 
-  app.listen(PORT, () => {
+  app.listen(app.get(PORT), () => {
     console.log(
-      `[${process.env.NODE_ENV}] Server is up and running on PORT :${PORT}`,
+      `[${process.env.NODE_ENV}] Server is up and running on PORT :${app.get(
+        PORT,
+      )}`,
     );
   });
 })();
