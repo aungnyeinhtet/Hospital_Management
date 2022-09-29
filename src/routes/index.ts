@@ -5,6 +5,7 @@ import authRoutes from "./auth.route";
 import doctorRoutes from "./doctors.route";
 import hospitalRoutes from "./hospitals.route";
 import patientRoutes from "./patients.route";
+import specialistRoutes from "./specialists.route";
 
 const router = Router();
 
@@ -14,6 +15,7 @@ router.get("/", (req, res) => {
   });
 });
 
+router.use("/specialists", specialistRoutes);
 router.use("/doctors", doctorRoutes);
 router.use("/hospitals", hospitalRoutes);
 router.use("/patients", patientRoutes);
