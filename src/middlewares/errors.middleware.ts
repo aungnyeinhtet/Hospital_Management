@@ -13,12 +13,12 @@ import { HttpStatus } from "../nsw/types/http-status";
  * @param res Response object provided by Express
  * @param next NextFunction function provided by Express
  */
-export default function handleError(
+export const handleError = (
   error: TypeError | HttpException,
   req: Request,
   res: Response,
   next: NextFunction,
-) {
+) => {
   if (res.headersSent) return next(error);
 
   if (isHttpError(error)) {
@@ -38,4 +38,4 @@ export default function handleError(
     message: error.message,
     name: error.name,
   });
-}
+};

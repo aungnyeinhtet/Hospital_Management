@@ -5,7 +5,7 @@ import helmet from "helmet";
 import "reflect-metadata";
 import { PORT } from "./config/constants";
 import passport from "./lib/passport";
-import handleError from "./middlewares/handleErrors";
+import { handleError } from "./middlewares/errors.middleware";
 import routes from "./routes";
 
 /**
