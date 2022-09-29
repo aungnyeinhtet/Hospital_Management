@@ -1,4 +1,5 @@
 import compression from "compression";
+import * as dotenv from "dotenv"; // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import express from "express";
 import expressRateLimit from "express-rate-limit";
 import helmet from "helmet";
@@ -7,6 +8,7 @@ import { PORT } from "./config/constants";
 import passport from "./lib/passport";
 import { handleError } from "./middlewares/errors.middleware";
 import routes from "./routes";
+dotenv.config();
 
 /**
  * bootstrap application

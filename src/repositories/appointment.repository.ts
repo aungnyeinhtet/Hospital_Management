@@ -19,11 +19,11 @@ export const findMany = async ({ take, skip }: FindManyAppointmentArgs) => {
 
 export const create = async ({ name }: CreateAppointmentInput) => {
   try {
-    return await prisma.appointment.create({
-      data: {
-        name,
-      },
-    });
+    // return await prisma.appointment.create({
+    //   data: {
+    //     name,
+    //   },
+    // });
   } catch (error) {
     console.log(error);
     throw new InternalServerError("DB Error");

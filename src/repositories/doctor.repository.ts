@@ -25,11 +25,11 @@ export const findMany = async ({ take, skip }: FindManyDoctorArgs) => {
 
 export const create = async ({ name }: CreateDoctorInput) => {
   try {
-    return await prisma.doctor.create({
-      data: {
-        name,
-      },
-    });
+    // return await prisma.doctor.create({
+    //   data: {
+    //     name,
+    //   },
+    // });
   } catch (error) {
     console.log(error);
     throw new InternalServerError("create doctor error");

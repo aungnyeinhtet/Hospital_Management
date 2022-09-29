@@ -19,11 +19,11 @@ export const findMany = async ({ take, skip }: FindManyHospitalArgs) => {
 
 export const create = async ({ name }: CreateHospitalInput) => {
   try {
-    return await prisma.hospital.create({
-      data: {
-        name,
-      },
-    });
+    // return await prisma.hospital.create({
+    //   data: {
+    //     name,
+    //   },
+    // });
   } catch (error) {
     console.log(error);
     throw new InternalServerError("DB Error");
