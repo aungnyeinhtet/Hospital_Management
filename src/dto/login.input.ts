@@ -6,6 +6,6 @@ export interface LoginInput {
 }
 
 export const loginInputSchema = Joi.object<LoginInput>({
-  email: Joi.string().required().min(5).max(15).trim(),
+  email: Joi.string().email().required().min(5).max(15).trim(),
   password: Joi.string().required().trim(),
 });
