@@ -34,3 +34,13 @@ export const create = async ({ name }: CreateDoctorInput) => {
     throw new InternalServerError("create doctor error");
   }
 };
+
+export const findById = async (id: string) => {
+  try {
+    return await prisma.doctor.findFirst({
+      where: {
+        id,
+      },
+    });
+  } catch (error) {}
+};

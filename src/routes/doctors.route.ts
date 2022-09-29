@@ -4,7 +4,11 @@ import { findManyDoctorArgsSchema } from "../dto/find-many-doctor.args";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { routeMiddleware } from "../middlewares/route.middleware";
 import { HttpStatus } from "../nsw/types/http-status";
-import { createDoctor, findManyDoctor } from "../services/doctor.service";
+import {
+  createDoctor,
+  findDoctorBydIdOrFail,
+  findManyDoctor,
+} from "../services/doctor.service";
 import { validate } from "../utils/validate";
 
 const router = Router();
@@ -52,7 +56,11 @@ router.post(
 router.get(
   "/:id",
   routeMiddleware(async (req, res) => {
-    //
+    const doctor = await findDoctorBydIdOrFail(req.params.id);
+
+    res.status(HttpStatus.OK).json({
+      data: doctor,
+    });
   }),
 );
 

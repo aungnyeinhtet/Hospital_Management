@@ -1,3 +1,4 @@
+import { NotFound } from "http-errors";
 import { CreateDoctorInput } from "../dto/create-doctor.input";
 import { FindManyDoctorArgs } from "../dto/find-many-doctor.args";
 import * as doctorRepository from "../repositories/doctor.repository";
@@ -14,4 +15,16 @@ export const findManyDoctor = async ({ take, skip }: FindManyDoctorArgs) => {
 
 export const createDoctor = async ({ name }: CreateDoctorInput) => {
   return await doctorRepository.create({ name });
+};
+
+export const findDoctorBydId = async (id: string) => {
+  return await doctorRepository.findById(id);
+};
+
+export const findDoctorBydIdOrFail = async (id: string) => {
+  const doctor = await findDoctorBydId(id);
+
+  if (!doctor) throw new NotFound(`Doctor not found with id ${id}`);
+
+  return doctor;
 };
