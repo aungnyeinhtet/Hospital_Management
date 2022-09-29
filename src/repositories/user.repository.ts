@@ -12,3 +12,15 @@ export const findUserById = async (id: string) => {
     throw new InternalServerException("findUserByIdError");
   }
 };
+
+export const findUserByEmail = async (email: string) => {
+  try {
+    return await prisma.user.findFirst({
+      where: {
+        email,
+      },
+    });
+  } catch (error) {
+    throw new InternalServerException("findUserByEmail");
+  }
+};

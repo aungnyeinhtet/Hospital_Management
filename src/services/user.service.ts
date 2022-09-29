@@ -14,3 +14,17 @@ export const findManyUsers = () => {
 export const findUserById = async (id: string): Promise<User> => {
   return await userRepository.findUserById(id);
 };
+
+/**
+ * find user by email
+ *
+ * @param email string
+ * @returns Promise<User>
+ */
+export const findUserByEmail = async (email: string): Promise<User> => {
+  return await userRepository.findUserByEmail(email);
+};
+
+export const createUser = async ({}) => {
+  //
+};

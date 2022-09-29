@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from "express";
+import { isHttpError } from "http-errors";
+import { IS_DEVELOPMENT } from "../config/constants";
 import { HttpException } from "../nsw/exceptions";
+import { HttpStatus } from "../nsw/types/http-status";
 
 /**
  * Custom error handler to standardize error objects returned to
@@ -11,26 +14,28 @@ import { HttpException } from "../nsw/exceptions";
  * @param next NextFunction function provided by Express
  */
 export default function handleError(
-  error: Error | HttpException,
+  error: TypeError | HttpException,
   req: Request,
   res: Response,
   next: NextFunction,
 ) {
   if (res.headersSent) return next(error);
 
-  if (error instanceof HttpException) {
-    console.log("HttpException");
-
+  if (isHttpError(error)) {
+    console.log("Http Error");
     res.status(error.statusCode).json({
       message: error.message,
       statusCode: error.statusCode,
-      success: false,
-      ...(process.env.NODE_ENV === "production"
-        ? null
-        : { stack: error.stack }),
+      name: error.name,
+      stack: IS_DEVELOPMENT && error.stack,
     });
-  } else {
-    console.log("Error");
-    res.status(500).send(error.message);
+
+    return;
   }
+
+  console.log("Unknown Error");
+  res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+    message: error.message,
+    name: error.name,
+  });
 }

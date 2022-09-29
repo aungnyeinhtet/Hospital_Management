@@ -1,21 +1,21 @@
+import { BadRequest } from "http-errors";
 import { ObjectSchema, ValidationError } from "joi";
-import { BadRequestException } from "../nsw/exceptions";
 
 /**
  * validate input value
  *
  * @param schema : Promise<T>
  */
-export async function validate<T>(
+export const validate = async <T extends unknown>(
   value: T,
   schema: ObjectSchema<T>,
-): Promise<T> {
+) => {
   try {
     return await schema.validateAsync(value);
   } catch (error) {
     if (error instanceof ValidationError)
-      throw new BadRequestException(error.details.map((d) => d.message).join());
+      throw new BadRequest(error.details.map((d) => d.message).join());
 
-    throw new BadRequestException();
+    throw new BadRequest("Validation Failed");
   }
-}
+};

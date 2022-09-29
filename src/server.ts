@@ -24,7 +24,7 @@ import routes from "./routes";
   app.use(compression());
   app.use(passport.initialize());
 
-  app.use(routes);
+  app.use("/api", routes);
 
   app.use(handleError);
 
