@@ -33,3 +33,7 @@ export const findDoctorBydIdOrFail = async (id: string) => {
 export const updateDoctor = async (id: string, { name }: UpdateDoctorInput) => {
   return await doctorRepository.update(id, { name });
 };
+
+export const deleteDoctorById = async (id: string) => {
+  return await doctorRepository.deleteById(id);
+};

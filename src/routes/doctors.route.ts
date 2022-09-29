@@ -7,6 +7,7 @@ import { routeMiddleware } from "../middlewares/route.middleware";
 import { HttpStatus } from "../nsw/types/http-status";
 import {
   createDoctor,
+  deleteDoctorById,
   findDoctorBydIdOrFail,
   findManyDoctor,
   updateDoctor,
@@ -54,6 +55,8 @@ router.post(
 
 /**
  * this endpoint will return doctor from given id
+ *
+ * @method GET
  */
 router.get(
   "/:id",
@@ -68,6 +71,8 @@ router.get(
 
 /**
  * this endpoint will handle to update doctor from given id
+ *
+ * @method PATCH
  */
 router.patch(
   "/:id",
@@ -88,11 +93,21 @@ router.patch(
 
 /**
  * this endpoint will handle to delete doctor
+ *
+ * @method DELETE
  */
 router.delete(
   "/:id",
   routeMiddleware(async (req, res) => {
-    // TODO
+    const doctorId = req.params.id;
+
+    await findDoctorBydIdOrFail(doctorId);
+
+    await deleteDoctorById(doctorId);
+
+    res.status(HttpStatus.OK).json({
+      message: `Doctor with id ${doctorId} deleted successfully`,
+    });
   }),
 );
 

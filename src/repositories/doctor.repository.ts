@@ -58,3 +58,13 @@ export const update = async (id: string, { name }: UpdateDoctorInput) => {
     });
   } catch (error) {}
 };
+
+export const deleteById = async (id: string) => {
+  try {
+    return await prisma.doctor.delete({
+      where: {
+        id,
+      },
+    });
+  } catch (error) {}
+};
