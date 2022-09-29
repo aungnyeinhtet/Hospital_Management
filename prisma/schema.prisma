@@ -22,11 +22,36 @@ model User {
 model Hospital {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
+  address   String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }
 
+model Specialist {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  doctors Doctor[]
+}
+
 model Doctor {
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  yearOfExperience Int       @default(0)
+  degree           String
+  startedAt        DateTime?
+  biography        String?
+  address          String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @default(now())
+
+  specialistId String
+  specialist   Specialist @relation(fields: [specialistId], references: [id])
+}
+
+model Topic {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   createdAt DateTime @default(now())
@@ -34,15 +59,51 @@ model Doctor {
 }
 
 model Appointment {
+  id               String            @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  status           AppointmentStatus @default(ACTIVE)
+  consultationType ConsultationType  @default(VOICE)
+  reason           String
+  from             DateTime
+  to               DateTime
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @default(now())
+}
+
+model Region {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+
+  patients Patient[]
 }
 
 model Patient {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  phone       String
+  dateOfBirth String
+  gender      Gender
+  regionId    String
+  region      Region   @relation(fields: [regionId], references: [id])
+  city        String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+}
+
+enum AppointmentStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum ConsultationType {
+  VOICE
+  VIDEO
+}
+
+enum Gender {
+  MALE
+  FEMALE
 }
