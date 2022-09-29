@@ -1,14 +1,18 @@
 import { Router } from "express";
+import { createDoctorInputSchema } from "../dto/create-doctor.input";
 import { findManyDoctorArgsSchema } from "../dto/find-many-doctor.args";
+import { authMiddleware } from "../middlewares/auth.middleware";
 import { routeMiddleware } from "../middlewares/route.middleware";
 import { HttpStatus } from "../nsw/types/http-status";
-import { findManyDoctor } from "../services/doctor.service";
+import { createDoctor, findManyDoctor } from "../services/doctor.service";
 import { validate } from "../utils/validate";
 
 const router = Router();
 
 /**
  * this endpoint will return a list of doctor
+ *
+ * @method GET
  */
 router.get(
   "/",
@@ -23,31 +27,52 @@ router.get(
   }),
 );
 
+/**
+ * this endpoint will create new doctor and return it
+ *
+ * @method POST
+ */
 router.post(
   "/",
+  authMiddleware,
   routeMiddleware(async (req, res) => {
-    // TODO handle to create new doctor
+    const { name } = await validate(req.body, createDoctorInputSchema);
+
+    const doctor = await createDoctor({ name });
+
+    res.status(HttpStatus.CREATED).json({
+      data: doctor,
+    });
   }),
 );
 
+/**
+ * this endpoint will return doctor from given id
+ */
 router.get(
   "/:id",
   routeMiddleware(async (req, res) => {
-    // TODO return doctor from given id
+    //
   }),
 );
 
+/**
+ * this endpoint will handle to update doctor from given id
+ */
 router.patch(
   "/:id",
   routeMiddleware(async (req, res) => {
-    // TODO handle to update doctor from given id
+    // TODO
   }),
 );
 
+/**
+ * this endpoint will handle to delete doctor
+ */
 router.delete(
   "/:id",
   routeMiddleware(async (req, res) => {
-    // TODO handle to delete doctor
+    // TODO
   }),
 );
 

@@ -1,5 +1,6 @@
 import { InternalServerError } from "http-errors";
 import { DEFAULT_TAKE } from "../config/constants";
+import { CreateDoctorInput } from "../dto/create-doctor.input";
 import { FindManyDoctorArgs } from "../dto/find-many-doctor.args";
 import prisma from "../lib/prisma";
 
@@ -9,7 +10,7 @@ import prisma from "../lib/prisma";
  * @param param0 FindManyDoctorArgs
  * @returns Promise<Doctor[]>
  */
-export const findManyDoctor = async ({ take, skip }: FindManyDoctorArgs) => {
+export const findMany = async ({ take, skip }: FindManyDoctorArgs) => {
   try {
     return await prisma.doctor.findMany({
       take: Number(take) || DEFAULT_TAKE,
@@ -18,5 +19,18 @@ export const findManyDoctor = async ({ take, skip }: FindManyDoctorArgs) => {
   } catch (error) {
     console.log(error);
     throw new InternalServerError("findManyDoctor");
+  }
+};
+
+export const create = async ({ name }: CreateDoctorInput) => {
+  try {
+    return await prisma.doctor.create({
+      data: {
+        name,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    throw new InternalServerError("create doctor error");
   }
 };
