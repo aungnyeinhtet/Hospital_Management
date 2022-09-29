@@ -1,5 +1,5 @@
+import { InternalServerError } from "http-errors";
 import prisma from "../lib/prisma";
-import { InternalServerException } from "../nsw/exceptions";
 
 export const findUserById = async (id: string) => {
   try {
@@ -9,7 +9,7 @@ export const findUserById = async (id: string) => {
       },
     });
   } catch (error) {
-    throw new InternalServerException("findUserByIdError");
+    throw new InternalServerError("findUserByIdError");
   }
 };
 
@@ -21,6 +21,7 @@ export const findUserByEmail = async (email: string) => {
       },
     });
   } catch (error) {
-    throw new InternalServerException("findUserByEmail");
+    console.log(error);
+    throw new InternalServerError("findUserByEmail");
   }
 };

@@ -37,5 +37,6 @@ export const handleError = (
   res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
     message: error.message,
     name: error.name,
+    stack: error.stack,
   });
 };
