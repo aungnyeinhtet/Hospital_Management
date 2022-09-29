@@ -4,14 +4,16 @@ import { BadRequest, NotFound } from "http-errors";
 import jwt from "jsonwebtoken";
 import { ACCESS_TOKEN_SECRET } from "../config/constants";
 import { loginInputSchema } from "../dto/login.input";
+import { routeMiddleware } from "../middlewares/routeMiddleware";
 import { HttpStatus } from "../nsw/types/http-status";
 import { findUserByEmail } from "../services/user.service";
 import { validate } from "../utils/validate";
 
 const router = Router();
 
-router.post("/login", async (req, res, next) => {
-  try {
+router.post(
+  "/login",
+  routeMiddleware(async (req, res) => {
     const { email, password } = await validate(req.body, loginInputSchema);
 
     const user = await findUserByEmail(email);
@@ -28,10 +30,8 @@ router.post("/login", async (req, res, next) => {
       token,
       user,
     });
-  } catch (error) {
-    next(error);
-  }
-});
+  }),
+);
 
 router.post("/register", (req, res, next) => {
   //
