@@ -1,44 +1,38 @@
 import { InternalServerError } from "http-errors";
-import { UpdateDoctorInput } from "src/dto/update-doctor.input";
+import { CreateHospitalInput } from "src/dto/create-hospital.input";
+import { FindManyHospitalArgs } from "src/dto/find-many-hospital.args";
+import { UpdateHospitalInput } from "src/dto/update-hospital.input";
 import { DEFAULT_TAKE } from "../config/constants";
-import { CreateDoctorInput } from "../dto/create-doctor.input";
-import { FindManyDoctorArgs } from "../dto/find-many-doctor.args";
 import prisma from "../lib/prisma";
 
-/**
- * find many doctor
- *
- * @param param0 FindManyDoctorArgs
- * @returns Promise<Doctor[]>
- */
-export const findMany = async ({ take, skip }: FindManyDoctorArgs) => {
+export const findMany = async ({ take, skip }: FindManyHospitalArgs) => {
   try {
-    return await prisma.doctor.findMany({
+    return await prisma.hospital.findMany({
       take: Number(take) || DEFAULT_TAKE,
       skip: Number(skip) || undefined,
     });
   } catch (error) {
     console.log(error);
-    throw new InternalServerError("findManyDoctor");
+    throw new InternalServerError("DB Error");
   }
 };
 
-export const create = async ({ name }: CreateDoctorInput) => {
+export const create = async ({ name }: CreateHospitalInput) => {
   try {
-    return await prisma.doctor.create({
+    return await prisma.hospital.create({
       data: {
         name,
       },
     });
   } catch (error) {
     console.log(error);
-    throw new InternalServerError("create doctor error");
+    throw new InternalServerError("DB Error");
   }
 };
 
 export const findById = async (id: string) => {
   try {
-    return await prisma.doctor.findFirst({
+    return await prisma.hospital.findFirst({
       where: {
         id,
       },
@@ -49,9 +43,9 @@ export const findById = async (id: string) => {
   }
 };
 
-export const update = async (id: string, { name }: UpdateDoctorInput) => {
+export const update = async (id: string, { name }: UpdateHospitalInput) => {
   try {
-    return await prisma.doctor.update({
+    return await prisma.hospital.update({
       where: {
         id,
       },
@@ -67,7 +61,7 @@ export const update = async (id: string, { name }: UpdateDoctorInput) => {
 
 export const deleteById = async (id: string) => {
   try {
-    return await prisma.doctor.delete({
+    return await prisma.hospital.delete({
       where: {
         id,
       },
