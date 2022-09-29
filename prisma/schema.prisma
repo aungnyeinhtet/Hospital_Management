@@ -15,30 +15,30 @@ model User {
   email     String   @unique
   name      String?
   password  String
-  createdAt DateTime
-  updatedAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model Hospital {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime
-  updatedAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model Doctor {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime
-  updatedAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model Appointment {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime
-  updatedAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model Patient {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime
-  updatedAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }

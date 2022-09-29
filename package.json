@@ -16,7 +16,7 @@
     "test": "jest"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} src/database/seeds/index.ts"
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seeds/index.ts"
   },
   "dependencies": {
     "@hapi/boom": "^10.0.0",
