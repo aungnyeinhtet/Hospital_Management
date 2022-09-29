@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { HttpStatus } from "../nsw/types/http-status";
+import appointmentRoutes from "./appointments.route";
 import authRoutes from "./auth.route";
 import doctorRoutes from "./doctors.route";
 import hospitalRoutes from "./hospitals.route";
@@ -16,6 +17,7 @@ router.get("/", (req, res) => {
 router.use("/doctors", doctorRoutes);
 router.use("/hospitals", hospitalRoutes);
 router.use("/patients", patientRoutes);
+router.use("/appointments", appointmentRoutes);
 router.use(authRoutes);
 
 export default router;
