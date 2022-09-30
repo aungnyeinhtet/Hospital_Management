@@ -59,6 +59,9 @@ export const findById = async (id: string) => {
       where: {
         id,
       },
+      include: {
+        region: true,
+      },
     });
   } catch (error) {
     console.log(error);

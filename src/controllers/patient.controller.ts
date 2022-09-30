@@ -5,7 +5,7 @@ import { updatePatientInputSchema } from "../dto/update-patient.input";
 import { HttpStatus } from "../nsw/types/http-status";
 import * as patientService from "../services/patient.service";
 import * as regionService from "../services/region.service";
-import { validate } from "../utils/validation";
+import { parseObjectId, validate } from "../utils/validation";
 
 /**
  * return a list of record
@@ -72,7 +72,9 @@ export const create = async (req: Request, res: Response): Promise<void> => {
  * @return Promise<void>
  */
 export const findById = async (req: Request, res: Response): Promise<void> => {
-  const patient = await patientService.findById(req.params.id);
+  const id = parseObjectId(req.params.id);
+
+  const patient = await patientService.findByIdOrFail(id);
 
   res.status(HttpStatus.OK).json({
     data: patient,
