@@ -11,7 +11,7 @@ import prisma from "../lib/prisma";
  * @param param0 FindManyDoctorArgs
  * @returns Promise<Doctor[]>
  */
-export const findMany = async ({ take, skip }: FindManyDoctorArgs) => {
+export const findMany = async ({ take, skip, filter }: FindManyDoctorArgs) => {
   try {
     return await prisma.doctor.findMany({
       take: Number(take) || DEFAULT_TAKE,

@@ -36,6 +36,11 @@ export const create = async (req: Request, res: Response) => {
    */
   await doctorService.findBydIdOrFail(doctorId);
 
+  /**
+   * check doctor is avaliable request time or not
+   */
+  await doctorService.checkConflitTime(doctorId, { from, to });
+
   const appointment = await appointmentService.create({
     consultationType,
     reason,

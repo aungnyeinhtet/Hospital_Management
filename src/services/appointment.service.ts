@@ -4,8 +4,12 @@ import { FindManyAppointmentArgs } from "../dto/find-many-appointment.args";
 import { UpdateAppointmentInput } from "../dto/update-appointment.input";
 import * as appointmentRepository from "../repositories/appointment.repository";
 
-export const findMany = async ({ take, skip }: FindManyAppointmentArgs) => {
-  return await appointmentRepository.findMany({ take, skip });
+export const findMany = async ({
+  take,
+  skip,
+  filter,
+}: FindManyAppointmentArgs) => {
+  return await appointmentRepository.findMany({ take, skip, filter });
 };
 
 export const findById = async (id: string) => {
