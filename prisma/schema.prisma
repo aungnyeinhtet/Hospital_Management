@@ -37,15 +37,14 @@ model Specialist {
 }
 
 model Doctor {
-  id               String    @id @default(auto()) @map("_id") @db.ObjectId
-  name             String
-  yearOfExperience Int       @default(0)
-  degree           String
-  startedAt        DateTime?
-  biography        String?
-  address          String?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @default(now())
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  degree    String
+  startedAt DateTime?
+  biography String?
+  address   String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
 
   specialistId String
   specialist   Specialist @relation(fields: [specialistId], references: [id])
