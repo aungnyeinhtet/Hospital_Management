@@ -6,7 +6,7 @@ import Joi, { ObjectSchema, ValidationError } from "joi";
  *
  * @param schema : Promise<T>
  */
-export const validate = async <T extends unknown>(
+export const validate = async <T = unknown>(
   value: T,
   schema: ObjectSchema<T>,
 ) => {

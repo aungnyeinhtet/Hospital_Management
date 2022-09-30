@@ -65,13 +65,13 @@ export const findById = async (req: Request, res: Response): Promise<void> => {
  * @return Promise<void>
  */
 export const update = async (req: Request, res: Response): Promise<void> => {
-  const { name } = await validate(req.body, updateHospitalInputSchema);
+  const { name, address } = await validate(req.body, updateHospitalInputSchema);
 
-  const hospitalId = req.params.id;
+  const hospitalId = parseObjectId(req.params.id);
 
   await hospitalService.findByIdOrFail(hospitalId);
 
-  const hospital = await hospitalService.update(hospitalId, { name });
+  const hospital = await hospitalService.update(hospitalId, { name, address });
 
   res.status(HttpStatus.OK).json({
     data: hospital,

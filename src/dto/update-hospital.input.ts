@@ -1,9 +1,9 @@
 import Joi from "joi";
+import { CreateHospitalInput } from "./create-hospital.input";
 
-export interface UpdateHospitalInput {
-  name: string;
-}
+export interface UpdateHospitalInput extends Partial<CreateHospitalInput> {}
 
-export const updateHospitalInputSchema = Joi.object({
-  name: Joi.string().required().trim(),
+export const updateHospitalInputSchema = Joi.object<UpdateHospitalInput>({
+  name: Joi.string().trim(),
+  address: Joi.string().trim(),
 });
