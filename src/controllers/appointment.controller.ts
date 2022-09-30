@@ -5,6 +5,7 @@ import { findManyAppointmentArgsSchema } from "../dto/find-many-appointment.args
 import { updateAppointmentInputSchema } from "../dto/update-appointment.input";
 import { HttpStatus } from "../nsw/types/http-status";
 import * as appointmentService from "../services/appointment.service";
+import * as doctorService from "../services/doctor.service";
 import { validate } from "../utils/validate";
 
 export const findMany = async (req: Request, res: Response) => {
@@ -25,10 +26,15 @@ export const findMany = async (req: Request, res: Response) => {
 export const create = async (req: Request, res: Response) => {
   const { id: patientId } = req.user as Patient;
 
-  const { consultationType, reason, from, to } = await validate(
+  const { consultationType, reason, from, to, doctorId } = await validate(
     req.body,
     createAppointmentInputSchema,
   );
+
+  /**
+   * check doctor with {doctorID} is exists or not
+   */
+  await doctorService.findBydIdOrFail(doctorId);
 
   const appointment = await appointmentService.create({
     consultationType,
@@ -36,6 +42,7 @@ export const create = async (req: Request, res: Response) => {
     from,
     to,
     patientId,
+    doctorId,
   });
 
   res.status(HttpStatus.CREATED).json({

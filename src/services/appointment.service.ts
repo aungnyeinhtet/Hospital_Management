@@ -24,6 +24,7 @@ export const create = async ({
   from,
   to,
   patientId,
+  doctorId,
 }: CreateAppointmentInput) => {
   return await appointmentRepository.create({
     consultationType,
@@ -31,6 +32,7 @@ export const create = async ({
     from,
     to,
     patientId,
+    doctorId,
   });
 };
 

@@ -23,6 +23,7 @@ export const create = async ({
   from,
   to,
   patientId,
+  doctorId,
 }: CreateAppointmentInput) => {
   try {
     return await prisma.appointment.create({
@@ -36,9 +37,15 @@ export const create = async ({
             id: patientId,
           },
         },
+        doctor: {
+          connect: {
+            id: doctorId,
+          },
+        },
       },
       include: {
         patient: true,
+        doctor: true,
       },
     });
   } catch (error) {

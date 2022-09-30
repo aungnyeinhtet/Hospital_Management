@@ -1,5 +1,6 @@
 import { ConsultationType } from "@prisma/client";
 import Joi from "joi";
+import { JoiObjectId } from "../utils/validate";
 
 export interface CreateAppointmentInput {
   consultationType: ConsultationType;
@@ -7,6 +8,7 @@ export interface CreateAppointmentInput {
   from: Date;
   to: Date;
   patientId: string;
+  doctorId: string;
 }
 
 export const createAppointmentInputSchema = Joi.object<CreateAppointmentInput>({
@@ -19,4 +21,5 @@ export const createAppointmentInputSchema = Joi.object<CreateAppointmentInput>({
     .required()
     .greater(Date.now() + 48 * 60 * 60 * 1000),
   to: Joi.date().required().greater(Joi.ref("from")),
+  doctorId: JoiObjectId().required().trim(),
 });

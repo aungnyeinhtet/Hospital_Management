@@ -1,5 +1,5 @@
 import { BadRequest } from "http-errors";
-import { ObjectSchema, ValidationError } from "joi";
+import Joi, { ObjectSchema, ValidationError } from "joi";
 
 /**
  * validate input value
@@ -19,3 +19,6 @@ export const validate = async <T extends unknown>(
     throw new BadRequest("Validation Failed");
   }
 };
+
+export const JoiObjectId = (message = "Should be valid ObjectId") =>
+  Joi.string().regex(/^[0-9a-fA-F]{24}$/, message);
