@@ -1,12 +1,7 @@
 import { Router } from "express";
-import { createDoctorInputSchema } from "../dto/create-doctor.input";
-import { findManyDoctorArgsSchema } from "../dto/find-many-doctor.args";
-import { updateDoctorInputSchema } from "../dto/update-doctor.input";
+import * as doctorController from "../controllers/doctor.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { routeMiddleware } from "../middlewares/route.middleware";
-import { HttpStatus } from "../nsw/types/http-status";
-import * as doctorService from "../services/doctor.service";
-import { validate } from "../utils/validate";
 
 const router = Router();
 
@@ -15,94 +10,34 @@ const router = Router();
  *
  * @method GET
  */
-router.get(
-  "/",
-  routeMiddleware(async (req, res) => {
-    const { take, skip } = await validate(req.query, findManyDoctorArgsSchema);
-
-    const doctors = await doctorService.findMany({ take, skip });
-
-    res.status(HttpStatus.OK).json({
-      data: doctors,
-    });
-  }),
-);
+router.get("/", routeMiddleware(doctorController.findMany));
 
 /**
  * this endpoint will create new doctor and return it
  *
  * @method POST
  */
-router.post(
-  "/",
-  authMiddleware,
-  routeMiddleware(async (req, res) => {
-    const { name } = await validate(req.body, createDoctorInputSchema);
-
-    const doctor = await doctorService.create({ name });
-
-    res.status(HttpStatus.CREATED).json({
-      data: doctor,
-    });
-  }),
-);
+router.post("/", authMiddleware, routeMiddleware(doctorController.create));
 
 /**
  * this endpoint will return doctor from given id
  *
  * @method GET
  */
-router.get(
-  "/:id",
-  routeMiddleware(async (req, res) => {
-    const doctor = await doctorService.findBydIdOrFail(req.params.id);
-
-    res.status(HttpStatus.OK).json({
-      data: doctor,
-    });
-  }),
-);
+router.get("/:id", routeMiddleware(doctorController.findById));
 
 /**
  * this endpoint will handle to update doctor from given id
  *
  * @method PATCH
  */
-router.patch(
-  "/:id",
-  routeMiddleware(async (req, res) => {
-    const { name } = await validate(req.body, updateDoctorInputSchema);
-
-    const doctorId = req.params.id;
-
-    await doctorService.findBydIdOrFail(doctorId);
-
-    const doctor = await doctorService.update(doctorId, { name });
-
-    res.status(HttpStatus.OK).json({
-      data: doctor,
-    });
-  }),
-);
+router.patch("/:id", routeMiddleware(doctorController.update));
 
 /**
  * this endpoint will handle to delete doctor
  *
  * @method DELETE
  */
-router.delete(
-  "/:id",
-  routeMiddleware(async (req, res) => {
-    const doctorId = req.params.id;
-
-    await doctorService.findBydIdOrFail(doctorId);
-
-    await doctorService.deleteById(doctorId);
-
-    res.status(HttpStatus.OK).json({
-      message: `Doctor with id ${doctorId} deleted successfully`,
-    });
-  }),
-);
+router.delete("/:id", routeMiddleware(doctorController.deleteById));
 
 export default router;
