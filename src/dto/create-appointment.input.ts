@@ -14,21 +14,18 @@ export interface CreateAppointmentInput {
 
 export const getConsultantionType = () =>
   Joi.string()
-    .required()
     .valid(...Object.keys(ConsultationType))
     .trim();
 
 export const getFrom = () =>
-  Joi.date()
-    .required()
-    .greater(Date.now() + 48 * 60 * 60 * 1000);
+  Joi.date().greater(Date.now() + 48 * 60 * 60 * 1000);
 
-export const getTo = () => Joi.date().required().greater(Joi.ref("from"));
+export const getTo = () => Joi.date().greater(Joi.ref("from"));
 
 export const createAppointmentInputSchema = Joi.object<CreateAppointmentInput>({
-  consultationType: getConsultantionType(),
+  consultationType: getConsultantionType().required(),
   reason: Joi.string().required().trim(),
-  from: getFrom(),
-  to: getTo(),
+  from: getFrom().required(),
+  to: getTo().required(),
   doctorId: JoiObjectId().required().trim(),
 });

@@ -112,6 +112,10 @@ export const update = async (
         from,
         to,
       },
+      include: {
+        doctor: true,
+        patient: true,
+      },
     });
   } catch (error) {
     console.log(error);
