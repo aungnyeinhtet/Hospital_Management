@@ -43,6 +43,19 @@ export const findById = async (id: string) => {
   }
 };
 
+export const findByPhone = async (phone: string) => {
+  try {
+    return await prisma.patient.findUnique({
+      where: {
+        phone,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    throw new InternalServerError("DB Error");
+  }
+};
+
 export const update = async (id: string, { name }: UpdatePatientInput) => {
   try {
     return await prisma.patient.update({

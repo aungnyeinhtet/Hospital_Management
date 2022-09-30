@@ -5,8 +5,14 @@ import { routeMiddleware } from "../middlewares/route.middleware";
 
 const router = Router();
 
+/**
+ * this route return a list of appointment that belong to
+ */
 router.get("/", routeMiddleware(appointmentController.findMany));
-router.post("/", authMiddleware, routeMiddleware(appointmentController.create));
+router.post(
+  "/",
+  /**authMiddleware */ routeMiddleware(appointmentController.create),
+);
 router.get("/:id", routeMiddleware(appointmentController.findById));
 router.patch(
   "/:id",

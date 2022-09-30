@@ -10,15 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Admin {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   email     String   @unique
   name      String?
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-
-  appointments Appointment[]
 }
 
 model Hospital {
@@ -70,8 +68,8 @@ model Appointment {
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @default(now())
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  patientId String
+  patient   Patient @relation(fields: [patientId], references: [id])
 }
 
 model Region {
@@ -86,7 +84,8 @@ model Region {
 model Patient {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        String
-  phone       String
+  phone       String    @unique
+  password    String
   dateOfBirth DateTime?
   gender      Gender
   regionId    String?
@@ -94,6 +93,8 @@ model Patient {
   city        String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now())
+
+  appointments Appointment[]
 }
 
 enum AppointmentStatus {

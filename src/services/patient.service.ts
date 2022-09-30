@@ -1,31 +1,43 @@
 import { NotFound } from "http-errors";
-import { CreateHospitalInput } from "../dto/create-hospital.input";
-import { FindManyHospitalArgs } from "../dto/find-many-hospital.args";
-import { UpdateHospitalInput } from "../dto/update-hospital.input";
-import * as hospitalRepository from "../repositories/hospital.repository";
+import { CreatePatientInput } from "src/dto/create-patient.input";
+import { FindManyPatientArgs } from "src/dto/find-many-patient.args";
+import { UpdatePatientInput } from "src/dto/update-patient.input";
+import * as patientRepository from "../repositories/patient.repository";
 
-export const findMany = async ({ take, skip }: FindManyHospitalArgs) => {
-  return await hospitalRepository.findMany({ take, skip });
+export const findMany = async ({ take, skip }: FindManyPatientArgs) => {
+  return await patientRepository.findMany({ take, skip });
 };
 
 export const findById = async (id: string) => {
-  return await hospitalRepository.findById(id);
+  return await patientRepository.findById(id);
 };
 
 export const findByIdOrFail = async (id: string) => {
-  const hospital = await findById(id);
+  const patient = await findById(id);
 
-  if (!hospital) throw new NotFound(`Hospital not found with id ${id}`);
+  if (!patient) throw new NotFound(`Patient not found with id ${id}`);
 };
 
-export const create = async ({ name }: CreateHospitalInput) => {
-  return await hospitalRepository.create({ name });
+export const findByPhone = async (phone: string) => {
+  return await patientRepository.findByPhone(phone);
 };
 
-export const update = async (id: string, { name }: UpdateHospitalInput) => {
-  return await hospitalRepository.update(id, { name });
+export const findByPhoneOrFail = async (phone: string) => {
+  const patient = await findByPhone(phone);
+
+  if (!patient) throw new NotFound(`Patient not found with phone ${phone}`);
+
+  return patient;
+};
+
+export const create = async ({ name }: CreatePatientInput) => {
+  return await patientRepository.create({ name });
+};
+
+export const update = async (id: string, { name }: UpdatePatientInput) => {
+  return await patientRepository.update(id, { name });
 };
 
 export const deleteById = async (id: string) => {
-  return await hospitalRepository.deleteById(id);
+  return await patientRepository.deleteById(id);
 };

@@ -7,16 +7,18 @@ export const patients: Omit<
 >[] = [
   {
     name: "Patient One",
-    phone: faker.phone.number(),
+    phone: "09671161193",
     dateOfBirth: null,
     gender: "MALE",
     city: faker.address.cityName(),
+    password: "password",
   },
   {
     name: "Patient Two",
-    phone: faker.phone.number(),
+    phone: "09671161192",
     dateOfBirth: null,
     gender: "FEMALE",
     city: faker.address.cityName(),
+    password: "password",
   },
 ];

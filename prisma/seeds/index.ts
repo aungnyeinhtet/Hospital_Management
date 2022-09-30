@@ -1,11 +1,11 @@
 import prisma from "../../src/lib/prisma";
+import { adminSeeder } from "./adminSeeder";
 import { doctorSeeder } from "./doctorSeeder";
 import { patientSeeder } from "./patientSeeder";
 import { specialistSeeder } from "./specialistSeeder";
-import { userSeeder } from "./userSeeder";
 
 (async () => {
-  await userSeeder();
+  await adminSeeder();
   await specialistSeeder();
   await doctorSeeder();
   await patientSeeder();
