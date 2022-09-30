@@ -1,5 +1,6 @@
 import { BadRequest } from "http-errors";
 import Joi, { ObjectSchema, ValidationError } from "joi";
+import { MyanmarPhoneValidator } from "./myanmar-phone";
 
 /**
  * validate input value
@@ -81,4 +82,19 @@ export const allowedInclude =
  */
 export function allowedFilter(key: string[]) {
   //
+}
+
+/**
+ * validate myanmar phone number
+ *
+ * @param value string |number
+ */
+export default function validateMyanmarPhone(
+  value: string | number,
+): string | number {
+  const validPhone = new MyanmarPhoneValidator(String(value)).isValidPhone();
+
+  if (!validPhone) throw new Error("Invalid phone number");
+
+  return value;
 }
