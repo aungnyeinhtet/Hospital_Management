@@ -14,3 +14,16 @@ export const findMany = async ({ take, skip }: FindManySpecialistArgs) => {
     throw new InternalServerError("DB Error");
   }
 };
+
+export const findById = async (id: string) => {
+  try {
+    return await prisma.specialist.findFirst({
+      where: {
+        id,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    throw new InternalServerError("DB Error");
+  }
+};

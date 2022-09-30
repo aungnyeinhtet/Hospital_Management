@@ -22,20 +22,37 @@ export const findMany = async ({ take, skip, filter }: FindManyDoctorArgs) => {
     });
   } catch (error) {
     console.log(error);
-    throw new InternalServerError("findManyDoctor");
+    throw new InternalServerError("DB Error");
   }
 };
 
-export const create = async ({ name }: CreateDoctorInput) => {
+export const create = async ({
+  name,
+  address,
+  biography,
+  degree,
+  specialistId,
+}: CreateDoctorInput) => {
   try {
-    // return await prisma.doctor.create({
-    //   data: {
-    //     name,
-    //   },
-    // });
+    return await prisma.doctor.create({
+      data: {
+        name,
+        degree,
+        address,
+        biography,
+        specialist: {
+          connect: {
+            id: specialistId,
+          },
+        },
+      },
+      include: {
+        specialist: true,
+      },
+    });
   } catch (error) {
     console.log(error);
-    throw new InternalServerError("create doctor error");
+    throw new InternalServerError("DB Error");
   }
 };
 

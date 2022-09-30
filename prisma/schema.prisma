@@ -39,7 +39,7 @@ model Specialist {
 model Doctor {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   name      String
-  degree    String
+  degree    String?
   startedAt DateTime?
   biography String?
   address   String?

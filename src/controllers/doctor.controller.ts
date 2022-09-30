@@ -4,9 +4,17 @@ import { findManyDoctorArgsSchema } from "../dto/find-many-doctor.args";
 import { updateDoctorInputSchema } from "../dto/update-doctor.input";
 import { HttpStatus } from "../nsw/types/http-status";
 import * as doctorService from "../services/doctor.service";
+import * as specialistService from "../services/specialist.service";
 import { validate } from "../utils/validation";
 
-export const findMany = async (req: Request, res: Response) => {
+/**
+ * return a list of record
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
+export const findMany = async (req: Request, res: Response): Promise<void> => {
   const { take, skip } = await validate(req.query, findManyDoctorArgsSchema);
 
   const doctors = await doctorService.findMany({ take, skip });
@@ -16,17 +24,42 @@ export const findMany = async (req: Request, res: Response) => {
   });
 };
 
-export const create = async (req: Request, res: Response) => {
-  const { name } = await validate(req.body, createDoctorInputSchema);
+/**
+ * handle to create new record
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
+export const create = async (req: Request, res: Response): Promise<void> => {
+  const { name, degree, biography, address, specialistId } = await validate(
+    req.body,
+    createDoctorInputSchema,
+  );
 
-  const doctor = await doctorService.create({ name });
+  await specialistService.findByIdOrFail(specialistId);
+
+  const doctor = await doctorService.create({
+    name,
+    degree,
+    biography,
+    address,
+    specialistId,
+  });
 
   res.status(HttpStatus.CREATED).json({
     data: doctor,
   });
 };
 
-export const findById = async (req: Request, res: Response) => {
+/**
+ * find record by id
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
+export const findById = async (req: Request, res: Response): Promise<void> => {
   const doctor = await doctorService.findBydIdOrFail(req.params.id);
 
   res.status(HttpStatus.OK).json({
@@ -34,7 +67,14 @@ export const findById = async (req: Request, res: Response) => {
   });
 };
 
-export const update = async (req: Request, res: Response) => {
+/**
+ * handle to update record by id
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
+export const update = async (req: Request, res: Response): Promise<void> => {
   const { name } = await validate(req.body, updateDoctorInputSchema);
 
   const doctorId = req.params.id;
@@ -48,7 +88,17 @@ export const update = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteById = async (req: Request, res: Response) => {
+/**
+ * handle to delete record by id
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
+export const deleteById = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const doctorId = req.params.id;
 
   await doctorService.findBydIdOrFail(doctorId);

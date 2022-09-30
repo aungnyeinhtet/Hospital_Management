@@ -18,8 +18,20 @@ export const findMany = async ({ take, skip, filter }: FindManyDoctorArgs) => {
   return await doctorRepository.findMany({ take, skip, filter });
 };
 
-export const create = async ({ name }: CreateDoctorInput) => {
-  return await doctorRepository.create({ name });
+export const create = async ({
+  name,
+  degree,
+  biography,
+  address,
+  specialistId,
+}: CreateDoctorInput) => {
+  return await doctorRepository.create({
+    name,
+    address,
+    biography,
+    degree,
+    specialistId,
+  });
 };
 
 export const findBydId = async (id: string) => {
