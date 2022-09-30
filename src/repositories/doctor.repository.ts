@@ -62,6 +62,9 @@ export const findById = async (id: string) => {
       where: {
         id,
       },
+      include: {
+        specialist: true,
+      },
     });
   } catch (error) {
     console.log(error);
@@ -69,7 +72,10 @@ export const findById = async (id: string) => {
   }
 };
 
-export const update = async (id: string, { name }: UpdateDoctorInput) => {
+export const update = async (
+  id: string,
+  { name, degree, biography, address, specialistId }: UpdateDoctorInput,
+) => {
   try {
     return await prisma.doctor.update({
       where: {
@@ -77,6 +83,19 @@ export const update = async (id: string, { name }: UpdateDoctorInput) => {
       },
       data: {
         name,
+        degree,
+        biography,
+        address,
+        specialist: specialistId
+          ? {
+              connect: {
+                id: specialistId,
+              },
+            }
+          : undefined,
+      },
+      include: {
+        specialist: true,
       },
     });
   } catch (error) {

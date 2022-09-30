@@ -46,8 +46,17 @@ export const findBydIdOrFail = async (id: string) => {
   return doctor;
 };
 
-export const update = async (id: string, { name }: UpdateDoctorInput) => {
-  return await doctorRepository.update(id, { name });
+export const update = async (
+  id: string,
+  { name, degree, biography, address, specialistId }: UpdateDoctorInput,
+) => {
+  return await doctorRepository.update(id, {
+    name,
+    degree,
+    biography,
+    address,
+    specialistId,
+  });
 };
 
 export const deleteById = async (id: string) => {

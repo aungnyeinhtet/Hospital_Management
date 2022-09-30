@@ -5,7 +5,7 @@ import { updateDoctorInputSchema } from "../dto/update-doctor.input";
 import { HttpStatus } from "../nsw/types/http-status";
 import * as doctorService from "../services/doctor.service";
 import * as specialistService from "../services/specialist.service";
-import { validate } from "../utils/validation";
+import { parseObjectId, validate } from "../utils/validation";
 
 /**
  * return a list of record
@@ -60,7 +60,9 @@ export const create = async (req: Request, res: Response): Promise<void> => {
  * @return Promise<void>
  */
 export const findById = async (req: Request, res: Response): Promise<void> => {
-  const doctor = await doctorService.findBydIdOrFail(req.params.id);
+  const id = parseObjectId(req.params.id);
+
+  const doctor = await doctorService.findBydIdOrFail(id);
 
   res.status(HttpStatus.OK).json({
     data: doctor,
@@ -75,13 +77,24 @@ export const findById = async (req: Request, res: Response): Promise<void> => {
  * @return Promise<void>
  */
 export const update = async (req: Request, res: Response): Promise<void> => {
-  const { name } = await validate(req.body, updateDoctorInputSchema);
+  const { name, degree, biography, address, specialistId } = await validate(
+    req.body,
+    updateDoctorInputSchema,
+  );
 
-  const doctorId = req.params.id;
+  const doctorId = parseObjectId(req.params.id);
+
+  if (specialistId) await specialistService.findByIdOrFail(specialistId);
 
   await doctorService.findBydIdOrFail(doctorId);
 
-  const doctor = await doctorService.update(doctorId, { name });
+  const doctor = await doctorService.update(doctorId, {
+    name,
+    degree,
+    biography,
+    address,
+    specialistId,
+  });
 
   res.status(HttpStatus.OK).json({
     data: doctor,
