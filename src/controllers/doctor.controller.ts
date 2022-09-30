@@ -112,7 +112,7 @@ export const deleteById = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const doctorId = req.params.id;
+  const doctorId = parseObjectId(req.params.id);
 
   await doctorService.findBydIdOrFail(doctorId);
 
