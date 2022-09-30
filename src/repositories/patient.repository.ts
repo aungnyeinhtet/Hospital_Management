@@ -21,7 +21,9 @@ export const create = async ({
   name,
   phone,
   password,
+  dateOfBirth,
   gender,
+  regionId,
   city,
 }: CreatePatientInput) => {
   try {
@@ -30,8 +32,19 @@ export const create = async ({
         name,
         phone,
         password,
+        dateOfBirth,
         gender,
+        region: regionId
+          ? {
+              connect: {
+                id: regionId,
+              },
+            }
+          : undefined,
         city,
+      },
+      include: {
+        region: true,
       },
     });
   } catch (error) {

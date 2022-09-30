@@ -11,7 +11,7 @@ export const register = async (req: Request, res: Response) => {
     registerInputSchema,
   );
 
-  await patientService.checkUserExistsWithPhone(phone);
+  await patientService.checkPatientExistsWithPhone(phone);
 
   const patient = await patientService.create({
     name,

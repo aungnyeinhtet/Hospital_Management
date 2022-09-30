@@ -1,14 +1,25 @@
-import { Gender } from "@prisma/client";
+import { Gender, Patient } from "@prisma/client";
 import Joi from "joi";
+import { JoiObjectId } from "../utils/validation";
 
-export interface CreatePatientInput {
-  name: string;
-  phone: string;
-  password: string;
-  gender: Gender;
-  city: string;
-}
+export interface CreatePatientInput
+  extends Pick<
+    Patient,
+    | "name"
+    | "phone"
+    | "password"
+    | "dateOfBirth"
+    | "gender"
+    | "regionId"
+    | "city"
+  > {}
 
-export const createPatientInputSchema = Joi.object({
+export const createPatientInputSchema = Joi.object<CreatePatientInput>({
   name: Joi.string().required().trim(),
+  phone: Joi.string().required().trim(),
+  password: Joi.string().required().trim(),
+  dateOfBirth: Joi.date(),
+  gender: Joi.string().valid(...Object.keys(Gender)),
+  regionId: JoiObjectId().trim(),
+  city: Joi.string().trim(),
 });
