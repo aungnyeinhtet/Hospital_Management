@@ -3,13 +3,7 @@ import { createHospitalInputSchema } from "../dto/create-hospital.input";
 import { findManyHospitalArgsSchema } from "../dto/find-many-hospital.args";
 import { updateHospitalInputSchema } from "../dto/update-hospital.input";
 import { HttpStatus } from "../nsw/types/http-status";
-import {
-  createHospital,
-  deleteHospitalById,
-  findHospitalByIdOrFail,
-  findManyHospital,
-  updateHospital,
-} from "../services/hospital.service";
+import * as hospitalService from "../services/hospital.service";
 import { validate } from "../utils/validation";
 
 /**
@@ -19,10 +13,10 @@ import { validate } from "../utils/validation";
  * @param res Response
  * @return Promise<void>
  */
-export const findMany = async (req: Request, res: Response) => {
+export const findMany = async (req: Request, res: Response): Promise<void> => {
   const { take, skip } = await validate(req.query, findManyHospitalArgsSchema);
 
-  const hispitals = await findManyHospital({ take, skip });
+  const hispitals = await hospitalService.findManyHospital({ take, skip });
 
   res.status(HttpStatus.OK).json({
     data: hispitals,
@@ -36,10 +30,10 @@ export const findMany = async (req: Request, res: Response) => {
  * @param res Response
  * @return Promise<void>
  */
-export const create = async (req: Request, res: Response) => {
-  const { name } = await validate(req.body, createHospitalInputSchema);
+export const create = async (req: Request, res: Response): Promise<void> => {
+  const { name, address } = await validate(req.body, createHospitalInputSchema);
 
-  const hospital = await createHospital({ name });
+  const hospital = await hospitalService.createHospital({ name, address });
 
   res.status(HttpStatus.CREATED).json({
     data: hospital,
@@ -53,8 +47,8 @@ export const create = async (req: Request, res: Response) => {
  * @param res Response
  * @return Promise<void>
  */
-export const findById = async (req: Request, res: Response) => {
-  const hospital = await findHospitalByIdOrFail(req.params.id);
+export const findById = async (req: Request, res: Response): Promise<void> => {
+  const hospital = await hospitalService.findHospitalByIdOrFail(req.params.id);
 
   res.status(HttpStatus.OK).json({
     data: hospital,
@@ -68,14 +62,14 @@ export const findById = async (req: Request, res: Response) => {
  * @param res Response
  * @return Promise<void>
  */
-export const update = async (req: Request, res: Response) => {
+export const update = async (req: Request, res: Response): Promise<void> => {
   const { name } = await validate(req.body, updateHospitalInputSchema);
 
   const hospitalId = req.params.id;
 
-  await findHospitalByIdOrFail(hospitalId);
+  await hospitalService.findHospitalByIdOrFail(hospitalId);
 
-  const hospital = await updateHospital(hospitalId, { name });
+  const hospital = await hospitalService.updateHospital(hospitalId, { name });
 
   res.status(HttpStatus.OK).json({
     data: hospital,
@@ -89,12 +83,15 @@ export const update = async (req: Request, res: Response) => {
  * @param res Response
  * @return Promise<void>
  */
-export const deleteById = async (req: Request, res: Response) => {
+export const deleteById = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
   const hospitalId = req.params.id;
 
-  await findHospitalByIdOrFail(hospitalId);
+  await hospitalService.findHospitalByIdOrFail(hospitalId);
 
-  await deleteHospitalById(hospitalId);
+  await hospitalService.deleteHospitalById(hospitalId);
 
   res.status(HttpStatus.OK).json({
     message: `Hospital with id ${hospitalId} deleted successfully`,

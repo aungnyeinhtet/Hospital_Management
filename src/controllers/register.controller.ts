@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import { registerInputSchema } from "../dto/register.input";
 import { HttpStatus } from "../nsw/types/http-status";
 import * as patientService from "../services/patient.service";
@@ -13,23 +12,22 @@ export const register = async (req: Request, res: Response) => {
 
   await patientService.checkPatientExistsWithPhone(phone);
 
-  const patient = await patientService.create({
-    name,
-    phone,
-    password,
-    gender: "FEMALE",
-    city: "",
-  });
+  // const patient = await patientService.create({
+  //   name,
+  //   phone,
+  //   password,
+  //   gender: "FEMALE",
+  //   city: "",
+  // });
 
-  const token = jwt.sign(
-    { sub: patient.id },
-    "process.env.ACCESS_TOKEN_SECRET",
-  );
+  // const token = jwt.sign(
+  //   { sub: patient.id },
+  //   "process.env.ACCESS_TOKEN_SECRET",
+  // );
 
   res.status(HttpStatus.OK).json({
     data: {
-      token,
-      patient,
+      token: "",
     },
   });
 };

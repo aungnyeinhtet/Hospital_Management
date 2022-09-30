@@ -21,8 +21,11 @@ export const findHospitalByIdOrFail = async (id: string) => {
   if (!hospital) throw new NotFound(`Hospital not found with id ${id}`);
 };
 
-export const createHospital = async ({ name }: CreateHospitalInput) => {
-  return await hospitalRepository.create({ name });
+export const createHospital = async ({
+  name,
+  address,
+}: CreateHospitalInput) => {
+  return await hospitalRepository.create({ name, address });
 };
 
 export const updateHospital = async (
