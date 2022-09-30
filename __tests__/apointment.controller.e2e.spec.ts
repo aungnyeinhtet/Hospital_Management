@@ -1,14 +1,15 @@
 import { genSaltSync, hash } from "bcrypt";
+import { Express } from "express";
 import request from "supertest";
 import { createApp } from "../src/app";
 import prisma from "../src/lib/prisma";
 import { HttpStatus } from "../src/nsw/types/http-status";
 
 describe("AppointmentController", () => {
+  let app: Express;
   const appointmentEnpoint = "/api/appointments";
   const loginEnpoint = "/api/login";
   let accessToken: string;
-  let app: any;
 
   const mockUser = {
     name: "Name",
