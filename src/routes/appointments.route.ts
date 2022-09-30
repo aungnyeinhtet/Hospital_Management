@@ -46,6 +46,18 @@ router.patch(
 );
 
 /**
+ * this route handle to cancel record with given id
+ *
+ * @middleware [authMiddleware, routeMiddleware]
+ * @method PATCH
+ */
+router.patch(
+  "/:id/cancel",
+  authMiddleware,
+  routeMiddleware(appointmentController.cancel),
+);
+
+/**
  * this route handle to delete records with given id
  *
  * @middleware [authMiddleware,routeMiddleware]

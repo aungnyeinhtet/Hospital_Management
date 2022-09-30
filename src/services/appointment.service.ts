@@ -60,9 +60,14 @@ export const create = async ({
 
 export const update = async (
   id: string,
-  { consultationType, from, to }: UpdateAppointmentInput,
+  { consultationType, from, to, status }: UpdateAppointmentInput,
 ) => {
-  return await appointmentRepository.update(id, { consultationType, from, to });
+  return await appointmentRepository.update(id, {
+    consultationType,
+    from,
+    to,
+    status,
+  });
 };
 
 export const deleteById = async (id: string) => {

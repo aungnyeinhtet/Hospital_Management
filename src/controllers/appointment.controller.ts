@@ -1,4 +1,4 @@
-import { Patient } from "@prisma/client";
+import { AppointmentStatus, Patient } from "@prisma/client";
 import { differenceInHours } from "date-fns";
 import { Request, Response } from "express";
 import { createAppointmentInputSchema } from "../dto/create-appointment.input";
@@ -128,6 +128,28 @@ export const update = async (req: Request, res: Response): Promise<void> => {
 
   res.status(HttpStatus.OK).json({
     data: appointment,
+  });
+};
+
+/**
+ * hadle cancel appointment by id
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
+export const cancel = async (req: Request, res: Response) => {
+  const id = parseObjectId(req.params.id);
+
+  await appointmentService.findByIdOrFail(id);
+
+  const appointment = await appointmentService.update(id, {
+    status: AppointmentStatus.CANCELLED,
+  });
+
+  res.status(HttpStatus.OK).json({
+    data: appointment,
+    message: "You appointment has been cancel successfully",
   });
 };
 

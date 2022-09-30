@@ -103,7 +103,7 @@ export const findById = async (id: string) => {
 
 export const update = async (
   id: string,
-  { consultationType, from, to }: UpdateAppointmentInput,
+  { consultationType, from, to, status }: UpdateAppointmentInput,
 ) => {
   try {
     return await prisma.appointment.update({
@@ -114,6 +114,7 @@ export const update = async (
         consultationType,
         from,
         to,
+        status: status ? status : undefined,
       },
       include: {
         doctor: true,

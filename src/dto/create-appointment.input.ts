@@ -17,8 +17,7 @@ export const getConsultantionType = () =>
     .valid(...Object.keys(ConsultationType))
     .trim();
 
-export const getFrom = () =>
-  Joi.date().greater(Date.now() + 48 * 60 * 60 * 1000);
+export const getFrom = () => Joi.date().greater(new Date(Date.now()));
 
 export const getTo = () => Joi.date().greater(Joi.ref("from"));
 

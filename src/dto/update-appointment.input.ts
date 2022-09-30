@@ -1,3 +1,4 @@
+import { AppointmentStatus } from "@prisma/client";
 import Joi from "joi";
 import {
   CreateAppointmentInput,
@@ -9,7 +10,9 @@ import {
 export interface UpdateAppointmentInput
   extends Partial<
     Pick<CreateAppointmentInput, "consultationType" | "from" | "to">
-  > {}
+  > {
+  status?: AppointmentStatus;
+}
 
 export const updateAppointmentInputSchema = Joi.object<UpdateAppointmentInput>({
   consultationType: getConsultantionType(),
