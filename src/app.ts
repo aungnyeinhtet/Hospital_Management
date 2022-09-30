@@ -1,5 +1,5 @@
 import compression from "compression";
-import express from "express";
+import express, { Express } from "express";
 import expressRateLimit from "express-rate-limit";
 import helmet from "helmet";
 import "reflect-metadata";
@@ -8,19 +8,21 @@ import passport from "./lib/passport";
 import { handleError } from "./middlewares/errors.middleware";
 import routes from "./routes";
 
-const app = express();
+export const createApp = (): Express => {
+  const app = express();
 
-app.set(PORT, process.env.PORT || 4000);
+  app.set(PORT, process.env.PORT || 4000);
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(expressRateLimit({ windowMs: 60 * 1000, max: 30 }));
-app.use(helmet());
-app.use(compression());
-app.use(passport.initialize());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
+  app.use(expressRateLimit({ windowMs: 60 * 1000, max: 30 }));
+  app.use(helmet());
+  app.use(compression());
+  app.use(passport.initialize());
 
-app.use("/api", routes);
+  app.use("/api", routes);
 
-app.use(handleError);
+  app.use(handleError);
 
-export default app;
+  return app;
+};

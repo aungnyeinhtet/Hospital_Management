@@ -1,16 +1,15 @@
 /** @type {import('jest').Config} */
 const config = {
-  verbose: true,
   moduleFileExtensions: ["js", "json", "ts"],
   rootDir: ".",
   moduleNameMapper: {
-    "^src/(.*)$": "<rootDir>/src/$1",
+    "^@src/(.*)$": "<rootDir>/src/$1",
   },
-  testRegex: ".*\\.spec\\.ts$",
+  testEnvironment: "node",
+  testRegex: ".e2e.spec.ts$",
   transform: {
     "^.+\\.(t|j)s$": "ts-jest",
   },
-  testEnvironment: "node",
 };
 
 module.exports = config;
