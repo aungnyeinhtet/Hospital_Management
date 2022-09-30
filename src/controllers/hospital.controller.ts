@@ -89,7 +89,7 @@ export const deleteById = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const hospitalId = req.params.id;
+  const hospitalId = parseObjectId(req.params.id);
 
   await hospitalService.findByIdOrFail(hospitalId);
 
