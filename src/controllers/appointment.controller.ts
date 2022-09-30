@@ -1,4 +1,5 @@
 import { Patient } from "@prisma/client";
+import { differenceInHours } from "date-fns";
 import { Request, Response } from "express";
 import { createAppointmentInputSchema } from "../dto/create-appointment.input";
 import { findManyAppointmentArgsSchema } from "../dto/find-many-appointment.args";
@@ -91,19 +92,39 @@ export const findById = async (req: Request, res: Response): Promise<void> => {
 
   const appointment = await appointmentService.findByIdOrFail(id);
 
+  // calculate approximate from  given appointment `to` date time
+  const approximateTime = differenceInHours(appointment.from, new Date());
+
   res.status(HttpStatus.OK).json({
-    data: appointment,
+    data: {
+      ...appointment,
+      approximateTime,
+    },
   });
 };
 
-export const update = async (req: Request, res: Response) => {
-  const { name } = await validate(req.body, updateAppointmentInputSchema);
+/**
+ * update record by id
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
+export const update = async (req: Request, res: Response): Promise<void> => {
+  const { consultationType, from, to } = await validate(
+    req.body,
+    updateAppointmentInputSchema,
+  );
 
-  const id = req.params.id;
+  const id = parseObjectId(req.params.id);
 
   await appointmentService.findByIdOrFail(id);
 
-  const appointment = await appointmentService.update(id, { name });
+  const appointment = await appointmentService.update(id, {
+    consultationType,
+    from,
+    to,
+  });
 
   res.status(HttpStatus.OK).json({
     data: appointment,

@@ -58,8 +58,11 @@ export const create = async ({
   });
 };
 
-export const update = async (id: string, { name }: UpdateAppointmentInput) => {
-  return await appointmentRepository.update(id, { name });
+export const update = async (
+  id: string,
+  { consultationType, from, to }: UpdateAppointmentInput,
+) => {
+  return await appointmentRepository.update(id, { consultationType, from, to });
 };
 
 export const deleteById = async (id: string) => {

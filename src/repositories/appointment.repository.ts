@@ -98,16 +98,21 @@ export const findById = async (id: string) => {
   }
 };
 
-export const update = async (id: string, { name }: UpdateAppointmentInput) => {
+export const update = async (
+  id: string,
+  { consultationType, from, to }: UpdateAppointmentInput,
+) => {
   try {
-    // return await prisma.appointment.update({
-    //   where: {
-    //     id,
-    //   },
-    //   data: {
-    //     name,
-    //   },
-    // });
+    return await prisma.appointment.update({
+      where: {
+        id,
+      },
+      data: {
+        consultationType,
+        from,
+        to,
+      },
+    });
   } catch (error) {
     console.log(error);
     throw new InternalServerError("DB Error");
