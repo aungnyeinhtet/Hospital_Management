@@ -1,3 +1,4 @@
+import { genSaltSync, hash } from "bcrypt";
 import app from "src/app";
 import prisma from "src/lib/prisma";
 import { HttpStatus } from "src/nsw/types/http-status";
@@ -7,17 +8,25 @@ describe("LoginController", () => {
   const loginEndpoint = "/api/login";
 
   const mockUser = {
-    firstName: "First Name",
-    lastName: "Last Name",
+    name: "Name",
     phone: "09671161193",
     password: "password",
   };
 
-  beforeEach(async () => {
-    //
+  beforeAll(async () => {
+    await prisma.patient.deleteMany();
+
+    await prisma.patient.create({
+      data: {
+        name: mockUser.name,
+        phone: mockUser.phone,
+        password: await hash(mockUser.password, genSaltSync(12)),
+      },
+    });
   });
 
   afterAll(async () => {
+    await prisma.patient.deleteMany();
     await prisma.$disconnect();
   });
 

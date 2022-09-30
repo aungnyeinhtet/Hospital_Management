@@ -92,10 +92,10 @@ model Patient {
   phone       String    @unique
   password    String
   dateOfBirth DateTime?
-  gender      Gender
+  gender      Gender?
   regionId    String?
   region      Region?   @relation(fields: [regionId], references: [id])
-  city        String
+  city        String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @default(now())
 

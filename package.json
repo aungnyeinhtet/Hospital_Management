@@ -13,7 +13,8 @@
     "predev": "rimraf dist && yarn build",
     "dev": "NODE_ENV=development concurrently -k -p \"[{name}]\" -n \"tsc,nodemon\" -c \"cyan.bold,green.bold\" \"yarn tsc:watch\" \"yarn serve\"",
     "build": "tsc",
-    "test": "dotenv -e env.test -- jest"
+    "pretest": "NODE_ENV=test dotenv -e .env.test -- prisma db push",
+    "test": "NODE_ENV=test dotenv -e .env.test -- jest"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seeds/index.ts"
