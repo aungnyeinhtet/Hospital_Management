@@ -1,6 +1,7 @@
 import { Patient } from "@prisma/client";
 import { Request, Response } from "express";
 import { createAppointmentInputSchema } from "../dto/create-appointment.input";
+import { findManyAppointmentByIdArgsSchema } from "../dto/find-appointment-by-id.args";
 import { findManyAppointmentArgsSchema } from "../dto/find-many-appointment.args";
 import { updateAppointmentInputSchema } from "../dto/update-appointment.input";
 import { HttpStatus } from "../nsw/types/http-status";
@@ -36,7 +37,14 @@ export const findMany = async (req: Request, res: Response): Promise<void> => {
   });
 };
 
-export const create = async (req: Request, res: Response) => {
+/**
+ * create new appointment
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
+export const create = async (req: Request, res: Response): Promise<void> => {
   const { id: patientId } = req.user as Patient;
 
   const { consultationType, reason, from, to, doctorId } = await validate(
@@ -54,6 +62,9 @@ export const create = async (req: Request, res: Response) => {
    */
   await doctorService.checkConflitTime(doctorId, { from, to });
 
+  // TODO generate token number each day
+  const tokenNumber = 1;
+
   const appointment = await appointmentService.create({
     consultationType,
     reason,
@@ -61,7 +72,7 @@ export const create = async (req: Request, res: Response) => {
     to,
     patientId,
     doctorId,
-    tokenNumber: 1,
+    tokenNumber,
   });
 
   res.status(HttpStatus.CREATED).json({
@@ -69,8 +80,17 @@ export const create = async (req: Request, res: Response) => {
   });
 };
 
-export const findById = async (req: Request, res: Response) => {
-  const appointment = await appointmentService.findById(req.params.id);
+/**
+ * find appointment by id
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
+export const findById = async (req: Request, res: Response): Promise<void> => {
+  const { id } = await validate(req.params, findManyAppointmentByIdArgsSchema);
+
+  const appointment = await appointmentService.findByIdOrFail(id);
 
   res.status(HttpStatus.OK).json({
     data: appointment,

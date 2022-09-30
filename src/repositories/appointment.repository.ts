@@ -87,6 +87,10 @@ export const findById = async (id: string) => {
       where: {
         id,
       },
+      include: {
+        doctor: true,
+        patient: true,
+      },
     });
   } catch (error) {
     console.log(error);

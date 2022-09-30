@@ -1,3 +1,4 @@
+import { Appointment } from "@prisma/client";
 import { NotFound } from "http-errors";
 import { CreateAppointmentInput } from "../dto/create-appointment.input";
 import { FindManyAppointmentArgs } from "../dto/find-many-appointment.args";
@@ -12,14 +13,29 @@ export const findMany = async ({
   return await appointmentRepository.findMany({ take, skip, filter });
 };
 
+/**
+ * find appointment by id
+ *
+ * @param id string
+ * @returns Promise<Appointment>
+ */
 export const findById = async (id: string) => {
   return await appointmentRepository.findById(id);
 };
 
-export const findByIdOrFail = async (id: string) => {
+/**
+ * find appointment by id
+ * throw error if record not found with id
+ *
+ * @param id string
+ * @returns Promise<Appointment>
+ */
+export const findByIdOrFail = async (id: string): Promise<Appointment> => {
   const appointment = await findById(id);
 
   if (!appointment) throw new NotFound(`Appointment not found with id ${id}`);
+
+  return appointment;
 };
 
 export const create = async ({
