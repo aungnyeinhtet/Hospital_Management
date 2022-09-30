@@ -25,6 +25,12 @@ export const findMany = async ({
                 status: filter.status,
               }
             : undefined,
+
+          filter && filter?.patientId
+            ? {
+                patientId: filter.patientId,
+              }
+            : undefined,
         ],
       },
       take: Number(take) || DEFAULT_TAKE,
@@ -43,6 +49,7 @@ export const create = async ({
   to,
   patientId,
   doctorId,
+  tokenNumber,
 }: CreateAppointmentInput) => {
   try {
     return await prisma.appointment.create({
@@ -51,6 +58,7 @@ export const create = async ({
         reason,
         from,
         to,
+        tokenNumber,
         patient: {
           connect: {
             id: patientId,

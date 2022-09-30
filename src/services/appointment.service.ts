@@ -27,6 +27,7 @@ export const create = async ({
   reason,
   from,
   to,
+  tokenNumber,
   patientId,
   doctorId,
 }: CreateAppointmentInput) => {
@@ -35,6 +36,7 @@ export const create = async ({
     reason,
     from,
     to,
+    tokenNumber,
     patientId,
     doctorId,
   });

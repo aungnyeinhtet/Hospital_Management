@@ -8,15 +8,28 @@ import * as appointmentService from "../services/appointment.service";
 import * as doctorService from "../services/doctor.service";
 import { validate } from "../utils/validate";
 
-export const findMany = async (req: Request, res: Response) => {
-  const authUserId = req.user as any;
+/**
+ * find many auth user appointment
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
+export const findMany = async (req: Request, res: Response): Promise<void> => {
+  const { id: authUserId } = req.user as Patient;
 
   const { take, skip } = await validate(
     req.query,
     findManyAppointmentArgsSchema,
   );
 
-  const appointments = await appointmentService.findMany({ take, skip });
+  const appointments = await appointmentService.findMany({
+    take,
+    skip,
+    filter: {
+      patientId: authUserId,
+    },
+  });
 
   res.status(HttpStatus.OK).json({
     data: appointments,
@@ -48,6 +61,7 @@ export const create = async (req: Request, res: Response) => {
     to,
     patientId,
     doctorId,
+    tokenNumber: 1,
   });
 
   res.status(HttpStatus.CREATED).json({

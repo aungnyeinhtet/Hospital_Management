@@ -66,6 +66,7 @@ model Appointment {
   reason           String
   from             DateTime
   to               DateTime
+  tokenNumber      Int
   createdAt        DateTime          @default(now())
   updatedAt        DateTime          @default(now())
 

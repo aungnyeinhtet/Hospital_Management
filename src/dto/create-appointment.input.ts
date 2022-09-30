@@ -9,6 +9,7 @@ export interface CreateAppointmentInput {
   to: Date;
   patientId: string;
   doctorId: string;
+  tokenNumber: number;
 }
 
 export const createAppointmentInputSchema = Joi.object<CreateAppointmentInput>({

@@ -7,6 +7,8 @@ const router = Router();
 
 /**
  * this route return a list of appointment that belong to
+ *
+ * @method GET
  */
 router.get(
   "/",

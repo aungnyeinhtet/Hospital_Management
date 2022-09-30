@@ -1,5 +1,5 @@
-export interface BaseFindManyArgs {
+export interface BaseFindManyArgs<TFilter = unknown> {
   take?: number;
   skip?: number;
-  filter?: any;
+  filter?: TFilter;
 }
