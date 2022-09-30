@@ -12,6 +12,13 @@ import {
 } from "../services/hospital.service";
 import { validate } from "../utils/validation";
 
+/**
+ * return a list of record
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
 export const findMany = async (req: Request, res: Response) => {
   const { take, skip } = await validate(req.query, findManyHospitalArgsSchema);
 
@@ -22,6 +29,13 @@ export const findMany = async (req: Request, res: Response) => {
   });
 };
 
+/**
+ * handle to create new record
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
 export const create = async (req: Request, res: Response) => {
   const { name } = await validate(req.body, createHospitalInputSchema);
 
@@ -32,6 +46,13 @@ export const create = async (req: Request, res: Response) => {
   });
 };
 
+/**
+ * find record by id
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
 export const findById = async (req: Request, res: Response) => {
   const hospital = await findHospitalByIdOrFail(req.params.id);
 
@@ -40,6 +61,13 @@ export const findById = async (req: Request, res: Response) => {
   });
 };
 
+/**
+ * handle to update record by id
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
 export const update = async (req: Request, res: Response) => {
   const { name } = await validate(req.body, updateHospitalInputSchema);
 
@@ -54,6 +82,13 @@ export const update = async (req: Request, res: Response) => {
   });
 };
 
+/**
+ * handle to delete record by id
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
 export const deleteById = async (req: Request, res: Response) => {
   const hospitalId = req.params.id;
 
