@@ -16,6 +16,9 @@ export const findMany = async ({ take, skip }: FindManyDoctorArgs) => {
     return await prisma.doctor.findMany({
       take: Number(take) || DEFAULT_TAKE,
       skip: Number(skip) || undefined,
+      include: {
+        specialist: true,
+      },
     });
   } catch (error) {
     console.log(error);

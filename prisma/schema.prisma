@@ -79,16 +79,16 @@ model Region {
 }
 
 model Patient {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   phone       String
-  dateOfBirth String
+  dateOfBirth DateTime?
   gender      Gender
-  regionId    String
-  region      Region   @relation(fields: [regionId], references: [id])
+  regionId    String?
+  region      Region?   @relation(fields: [regionId], references: [id])
   city        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
 }
 
 enum AppointmentStatus {
