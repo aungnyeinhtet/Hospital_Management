@@ -6,11 +6,11 @@ passport.use(
   new JwtStrategy(
     {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: "process.env.ACCESS_TOKEN_SECRET",
-      issuer: "",
-      audience: "",
+      secretOrKey: process.env.ACCESS_TOKEN_SECRET,
     },
     async (payload, done) => {
+      console.log(process.env.ACCESS_TOKEN_SECRET);
+
       try {
         const user = await findByIdOrFail(payload.id);
 

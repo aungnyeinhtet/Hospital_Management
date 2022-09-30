@@ -35,6 +35,9 @@ export const findMany = async ({
       },
       take: Number(take) || DEFAULT_TAKE,
       skip: Number(skip) || undefined,
+      include: {
+        doctor: true,
+      },
     });
   } catch (error) {
     console.log(error);
