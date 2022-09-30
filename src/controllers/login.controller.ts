@@ -9,7 +9,7 @@ import * as patientService from "../services/patient.service";
 import { validate } from "../utils/validation";
 
 /**
- * login
+ * handle to login
  *
  * @param req Request
  * @param res Response

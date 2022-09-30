@@ -1,10 +1,8 @@
+import { Patient } from "@prisma/client";
 import Joi from "joi";
 
-export interface RegisterInput {
-  name: string;
-  phone: string;
-  password: string;
-}
+export interface RegisterInput
+  extends Pick<Patient, "name" | "phone" | "password"> {}
 
 export const registerInputSchema = Joi.object<RegisterInput>({
   name: Joi.string().required().trim(),

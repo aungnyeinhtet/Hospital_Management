@@ -3,15 +3,17 @@ import Joi from "joi";
 import { JoiObjectId } from "../utils/validation";
 
 export interface CreatePatientInput
-  extends Pick<
-    Patient,
-    | "name"
-    | "phone"
-    | "password"
-    | "dateOfBirth"
-    | "gender"
-    | "regionId"
-    | "city"
+  extends Partial<
+    Pick<
+      Patient,
+      | "name"
+      | "phone"
+      | "password"
+      | "dateOfBirth"
+      | "gender"
+      | "regionId"
+      | "city"
+    >
   > {}
 
 export const createPatientInputSchema = Joi.object<CreatePatientInput>({
