@@ -22,3 +22,19 @@ export const validate = async <T extends unknown>(
 
 export const JoiObjectId = (message = "Should be valid ObjectId") =>
   Joi.string().regex(/^[0-9a-fA-F]{24}$/, message);
+
+/**
+ * validate incoming id is valid object id or not
+ *
+ * @param id string
+ * @returns string
+ */
+export const parseObjectId = (id: string): string => {
+  const message = `${id} is not valid ObjectId`;
+
+  if (!id) throw new BadRequest(message);
+
+  if (!/^[0-9a-fA-F]{24}$/.test(id)) throw new BadRequest(message);
+
+  return id;
+};

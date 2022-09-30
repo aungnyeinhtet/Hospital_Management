@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { findManySpecialistArgsSchema } from "../dto/find-many-specialist.args";
 import { HttpStatus } from "../nsw/types/http-status";
 import * as specialistService from "../services/specialist.service";
-import { validate } from "../utils/validate";
+import { validate } from "../utils/validation";
 
 export const findMany = async (req: Request, res: Response) => {
   const { take, skip } = await validate(

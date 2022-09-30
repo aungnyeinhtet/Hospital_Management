@@ -3,7 +3,7 @@ import { findManyPatientArgsSchema } from "../dto/find-many-patient.args";
 import { updatePatientInputSchema } from "../dto/update-patient.input";
 import { HttpStatus } from "../nsw/types/http-status";
 import * as patientService from "../services/patient.service";
-import { validate } from "../utils/validate";
+import { validate } from "../utils/validation";
 
 export const findMany = async (req: Request, res: Response) => {
   const { take, skip } = await validate(req.query, findManyPatientArgsSchema);

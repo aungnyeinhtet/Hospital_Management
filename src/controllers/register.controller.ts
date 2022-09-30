@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { registerInputSchema } from "../dto/register.input";
 import { HttpStatus } from "../nsw/types/http-status";
 import * as patientService from "../services/patient.service";
-import { validate } from "../utils/validate";
+import { validate } from "../utils/validation";
 
 export const register = async (req: Request, res: Response) => {
   const { name, phone, password } = await validate(

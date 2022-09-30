@@ -10,7 +10,7 @@ import {
   findManyHospital,
   updateHospital,
 } from "../services/hospital.service";
-import { validate } from "../utils/validate";
+import { validate } from "../utils/validation";
 
 export const findMany = async (req: Request, res: Response) => {
   const { take, skip } = await validate(req.query, findManyHospitalArgsSchema);

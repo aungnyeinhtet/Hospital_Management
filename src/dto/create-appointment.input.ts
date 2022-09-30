@@ -1,6 +1,6 @@
 import { ConsultationType } from "@prisma/client";
 import Joi from "joi";
-import { JoiObjectId } from "../utils/validate";
+import { JoiObjectId } from "../utils/validation";
 
 export interface CreateAppointmentInput {
   consultationType: ConsultationType;

@@ -1,13 +1,12 @@
 import { Patient } from "@prisma/client";
 import { Request, Response } from "express";
 import { createAppointmentInputSchema } from "../dto/create-appointment.input";
-import { findManyAppointmentByIdArgsSchema } from "../dto/find-appointment-by-id.args";
 import { findManyAppointmentArgsSchema } from "../dto/find-many-appointment.args";
 import { updateAppointmentInputSchema } from "../dto/update-appointment.input";
 import { HttpStatus } from "../nsw/types/http-status";
 import * as appointmentService from "../services/appointment.service";
 import * as doctorService from "../services/doctor.service";
-import { validate } from "../utils/validate";
+import { parseObjectId, validate } from "../utils/validation";
 
 /**
  * find many auth user appointment
@@ -88,7 +87,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
  * @return Promise<void>
  */
 export const findById = async (req: Request, res: Response): Promise<void> => {
-  const { id } = await validate(req.params, findManyAppointmentByIdArgsSchema);
+  const id = parseObjectId(req.params.id);
 
   const appointment = await appointmentService.findByIdOrFail(id);
 
@@ -111,8 +110,18 @@ export const update = async (req: Request, res: Response) => {
   });
 };
 
-export const deleteById = async (req: Request, res: Response) => {
-  const id = req.params.id;
+/**
+ * delete appointment by id
+ *
+ * @param req Request
+ * @param res Response
+ * @return Promise<void>
+ */
+export const deleteById = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  const id = parseObjectId(req.params.id);
 
   await appointmentService.findByIdOrFail(id);
 

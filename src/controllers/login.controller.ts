@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import { loginInputSchema } from "../dto/login.input";
 import { HttpStatus } from "../nsw/types/http-status";
 import * as patientService from "../services/patient.service";
-import { validate } from "../utils/validate";
+import { validate } from "../utils/validation";
 
 export const login = async (req: Request, res: Response) => {
   const { phone, password } = await validate(req.body, loginInputSchema);

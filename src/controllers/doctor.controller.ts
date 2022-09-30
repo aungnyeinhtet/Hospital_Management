@@ -4,7 +4,7 @@ import { findManyDoctorArgsSchema } from "../dto/find-many-doctor.args";
 import { updateDoctorInputSchema } from "../dto/update-doctor.input";
 import { HttpStatus } from "../nsw/types/http-status";
 import * as doctorService from "../services/doctor.service";
-import { validate } from "../utils/validate";
+import { validate } from "../utils/validation";
 
 export const findMany = async (req: Request, res: Response) => {
   const { take, skip } = await validate(req.query, findManyDoctorArgsSchema);
