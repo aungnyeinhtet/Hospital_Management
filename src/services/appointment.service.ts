@@ -18,8 +18,20 @@ export const findByIdOrFail = async (id: string) => {
   if (!appointment) throw new NotFound(`Appointment not found with id ${id}`);
 };
 
-export const create = async ({ name }: CreateAppointmentInput) => {
-  return await appointmentRepository.create({ name });
+export const create = async ({
+  consultationType,
+  reason,
+  from,
+  to,
+  patientId,
+}: CreateAppointmentInput) => {
+  return await appointmentRepository.create({
+    consultationType,
+    reason,
+    from,
+    to,
+    patientId,
+  });
 };
 
 export const update = async (id: string, { name }: UpdateAppointmentInput) => {

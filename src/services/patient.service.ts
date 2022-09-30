@@ -16,6 +16,8 @@ export const findByIdOrFail = async (id: string) => {
   const patient = await findById(id);
 
   if (!patient) throw new NotFound(`Patient not found with id ${id}`);
+
+  return patient;
 };
 
 export const findByPhone = async (phone: string) => {

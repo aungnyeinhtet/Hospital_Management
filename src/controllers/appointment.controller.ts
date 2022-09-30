@@ -1,3 +1,4 @@
+import { Patient } from "@prisma/client";
 import { Request, Response } from "express";
 import { createAppointmentInputSchema } from "../dto/create-appointment.input";
 import { findManyAppointmentArgsSchema } from "../dto/find-many-appointment.args";
@@ -7,6 +8,8 @@ import * as appointmentService from "../services/appointment.service";
 import { validate } from "../utils/validate";
 
 export const findMany = async (req: Request, res: Response) => {
+  const authUserId = req.user as any;
+
   const { take, skip } = await validate(
     req.query,
     findManyAppointmentArgsSchema,
@@ -20,9 +23,20 @@ export const findMany = async (req: Request, res: Response) => {
 };
 
 export const create = async (req: Request, res: Response) => {
-  const { name } = await validate(req.body, createAppointmentInputSchema);
+  const { id: patientId } = req.user as Patient;
 
-  const appointment = await appointmentService.create({ name });
+  const { consultationType, reason, from, to } = await validate(
+    req.body,
+    createAppointmentInputSchema,
+  );
+
+  const appointment = await appointmentService.create({
+    consultationType,
+    reason,
+    from,
+    to,
+    patientId,
+  });
 
   res.status(HttpStatus.CREATED).json({
     data: appointment,

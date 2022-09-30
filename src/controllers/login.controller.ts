@@ -16,7 +16,10 @@ export const login = async (req: Request, res: Response) => {
 
   if (!validatePassword) throw new BadRequest("Invalid password");
 
-  const token = jwt.sign({ sub: patient.id }, "ACCESS_TOKEN_SECRET");
+  const token = jwt.sign(
+    { sub: patient.id },
+    "process.env.ACCESS_TOKEN_SECRET",
+  );
 
   res.status(HttpStatus.OK).json({
     data: {

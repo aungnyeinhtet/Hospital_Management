@@ -17,13 +17,30 @@ export const findMany = async ({ take, skip }: FindManyAppointmentArgs) => {
   }
 };
 
-export const create = async ({ name }: CreateAppointmentInput) => {
+export const create = async ({
+  consultationType,
+  reason,
+  from,
+  to,
+  patientId,
+}: CreateAppointmentInput) => {
   try {
-    // return await prisma.appointment.create({
-    //   data: {
-    //     name,
-    //   },
-    // });
+    return await prisma.appointment.create({
+      data: {
+        consultationType,
+        reason,
+        from,
+        to,
+        patient: {
+          connect: {
+            id: patientId,
+          },
+        },
+      },
+      include: {
+        patient: true,
+      },
+    });
   } catch (error) {
     console.log(error);
     throw new InternalServerError("DB Error");
@@ -45,14 +62,14 @@ export const findById = async (id: string) => {
 
 export const update = async (id: string, { name }: UpdateAppointmentInput) => {
   try {
-    return await prisma.appointment.update({
-      where: {
-        id,
-      },
-      data: {
-        name,
-      },
-    });
+    // return await prisma.appointment.update({
+    //   where: {
+    //     id,
+    //   },
+    //   data: {
+    //     name,
+    //   },
+    // });
   } catch (error) {
     console.log(error);
     throw new InternalServerError("DB Error");
