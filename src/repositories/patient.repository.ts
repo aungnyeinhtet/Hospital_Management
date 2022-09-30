@@ -17,13 +17,23 @@ export const findMany = async ({ take, skip }: FindManyPatientArgs) => {
   }
 };
 
-export const create = async ({ name }: CreatePatientInput) => {
+export const create = async ({
+  name,
+  phone,
+  password,
+  gender,
+  city,
+}: CreatePatientInput) => {
   try {
-    // return await prisma.patient.create({
-    //   data: {
-    //     name,
-    //   },
-    // });
+    return await prisma.patient.create({
+      data: {
+        name,
+        phone,
+        password,
+        gender,
+        city,
+      },
+    });
   } catch (error) {
     console.log(error);
     throw new InternalServerError("DB Error");

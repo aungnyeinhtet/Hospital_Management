@@ -1,4 +1,5 @@
-import { NotFound } from "http-errors";
+import { genSaltSync, hash } from "bcrypt";
+import { Conflict, NotFound } from "http-errors";
 import { CreatePatientInput } from "src/dto/create-patient.input";
 import { FindManyPatientArgs } from "src/dto/find-many-patient.args";
 import { UpdatePatientInput } from "src/dto/update-patient.input";
@@ -10,6 +11,12 @@ export const findMany = async ({ take, skip }: FindManyPatientArgs) => {
 
 export const findById = async (id: string) => {
   return await patientRepository.findById(id);
+};
+
+export const checkUserExistsWithPhone = async (phone: string) => {
+  const user = await findByPhone(phone);
+
+  if (user) throw new Conflict(`User with phone ${phone} already exists`);
 };
 
 export const findByIdOrFail = async (id: string) => {
@@ -32,8 +39,22 @@ export const findByPhoneOrFail = async (phone: string) => {
   return patient;
 };
 
-export const create = async ({ name }: CreatePatientInput) => {
-  return await patientRepository.create({ name });
+export const create = async ({
+  name,
+  phone,
+  password,
+  gender,
+  city,
+}: CreatePatientInput) => {
+  const hashedPassword = await hash(password, genSaltSync(12));
+
+  return await patientRepository.create({
+    name,
+    phone,
+    password: hashedPassword,
+    gender,
+    city,
+  });
 };
 
 export const update = async (id: string, { name }: UpdatePatientInput) => {

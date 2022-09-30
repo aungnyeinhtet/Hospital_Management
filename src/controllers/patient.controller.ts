@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { createPatientInputSchema } from "../dto/create-patient.input";
 import { findManyPatientArgsSchema } from "../dto/find-many-patient.args";
 import { updatePatientInputSchema } from "../dto/update-patient.input";
 import { HttpStatus } from "../nsw/types/http-status";
@@ -17,13 +16,11 @@ export const findMany = async (req: Request, res: Response) => {
 };
 
 export const create = async (req: Request, res: Response) => {
-  const { name } = await validate(req.body, createPatientInputSchema);
-
-  const patient = await patientService.create({ name });
-
-  res.status(HttpStatus.CREATED).json({
-    data: patient,
-  });
+  // const { name } = await validate(req.body, createPatientInputSchema);
+  // const patient = await patientService.create({ name });
+  // res.status(HttpStatus.CREATED).json({
+  //   data: patient,
+  // });
 };
 
 export const findById = async (req: Request, res: Response) => {

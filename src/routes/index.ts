@@ -10,6 +10,8 @@ import specialistRoutes from "./specialists.route";
 const router = Router();
 
 router.get("/", (req, res) => {
+  console.log(process.env.ACCESS_TOKEN_SECRET);
+
   res.status(HttpStatus.OK).json({
     message: "Hello World!",
   });
