@@ -61,8 +61,18 @@ export const create = async ({
   });
 };
 
-export const update = async (id: string, { name }: UpdatePatientInput) => {
-  return await patientRepository.update(id, { name });
+export const update = async (
+  id: string,
+  { name, city, dateOfBirth, gender, phone, regionId }: UpdatePatientInput,
+) => {
+  return await patientRepository.update(id, {
+    name,
+    city,
+    dateOfBirth,
+    gender,
+    phone,
+    regionId,
+  });
 };
 
 export const deleteById = async (id: string) => {

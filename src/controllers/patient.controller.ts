@@ -89,13 +89,27 @@ export const findById = async (req: Request, res: Response): Promise<void> => {
  * @return Promise<void>
  */
 export const update = async (req: Request, res: Response): Promise<void> => {
-  const { name } = await validate(req.body, updatePatientInputSchema);
+  const patientId = parseObjectId(req.params.id);
 
-  const id = req.params.id;
+  const { name, phone, dateOfBirth, gender, regionId, city } = await validate(
+    req.body,
+    updatePatientInputSchema,
+  );
 
-  await patientService.findByIdOrFail(id);
+  await patientService.findByIdOrFail(patientId);
 
-  const patient = await patientService.update(id, { name });
+  if (regionId) await regionService.findBydIdOrFail(regionId);
+
+  if (phone) await patientService.checkPatientExistsWithPhone(phone);
+
+  const patient = await patientService.update(patientId, {
+    name,
+    phone,
+    dateOfBirth,
+    gender,
+    regionId,
+    city,
+  });
 
   res.status(HttpStatus.OK).json({
     data: patient,

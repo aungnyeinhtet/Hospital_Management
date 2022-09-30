@@ -82,7 +82,10 @@ export const findByPhone = async (phone: string) => {
   }
 };
 
-export const update = async (id: string, { name }: UpdatePatientInput) => {
+export const update = async (
+  id: string,
+  { name, city, dateOfBirth, gender, phone, regionId }: UpdatePatientInput,
+) => {
   try {
     return await prisma.patient.update({
       where: {
@@ -90,6 +93,20 @@ export const update = async (id: string, { name }: UpdatePatientInput) => {
       },
       data: {
         name,
+        city,
+        dateOfBirth,
+        gender,
+        phone,
+        region: regionId
+          ? {
+              connect: {
+                id: regionId,
+              },
+            }
+          : undefined,
+      },
+      include: {
+        region: true,
       },
     });
   } catch (error) {
