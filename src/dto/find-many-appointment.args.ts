@@ -6,6 +6,8 @@ interface AppointmentFilter {
   doctorId?: string;
   patientId?: string;
   status?: AppointmentStatus;
+  from?: Date;
+  to?: Date;
 }
 
 export interface FindManyAppointmentArgs

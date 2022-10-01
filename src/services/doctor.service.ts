@@ -1,11 +1,12 @@
 import { AppointmentStatus, Doctor } from "@prisma/client";
-import { NotFound, UnprocessableEntity } from "http-errors";
+import { BadRequest, NotFound, UnprocessableEntity } from "http-errors";
 import { MAX_SEE_PATIENT_PER_DAY } from "../config/constants";
 import { CreateAppointmentInput } from "../dto/create-appointment.input";
 import { CreateDoctorInput } from "../dto/create-doctor.input";
 import { FindManyDoctorArgs } from "../dto/find-many-doctor.args";
 import { UpdateDoctorInput } from "../dto/update-doctor.input";
 import * as doctorRepository from "../repositories/doctor.repository";
+import { isSameDay } from "../utils/validation";
 import * as appointmentService from "./appointment.service";
 
 /**
@@ -59,6 +60,42 @@ export const findBydIdOrFail = async (id: string): Promise<Doctor> => {
 };
 
 /**
+ * check given doctor is avaliable on that time or not
+ *
+ * @param from Date
+ * @param to Date
+ */
+export const checkDoctorIsAvaliableOrNot = async (
+  doctorId: string,
+  from: Date,
+  to: Date,
+) => {
+  /** TODO, here we will get list of doctor avaliable time for today,
+   *  for now we use hard coded value
+   */
+  const date = new Date();
+  const fromHour = date.setUTCHours(17); // 5PM
+  const toHour = date.setUTCHours(20); // 8PM
+
+  // console.log("from", getHours(new Date(from)));
+  console.log("fromHour", fromHour);
+  console.log("toHour", toHour);
+
+  // check given two date is same day or not
+  if (!isSameDay(from, to))
+    throw new BadRequest(
+      "Sorry!, invalid appointment schedule, please make sure your from and to date is at the same day and specify allowed time",
+    );
+
+  // if (from.getHours() < fromHour || to.getHours() > toHour)
+  //   throw new BadRequest(
+  //     "Sorry!, this doctor is not avaliable schedule for this time, avaliable time is between  5PM - 8PM everyday",
+  //   );
+
+  await isFullOfSchedule(doctorId, { from, to });
+};
+
+/**
  * update record by id
  *
  * @param id string
@@ -95,7 +132,7 @@ export const deleteById = async (id: string): Promise<Doctor> => {
  * @param param1 CreateAppointmentInput
  * @returns Promise<any>
  */
-export const checkConflitTime = async (
+export const isFullOfSchedule = async (
   id: string,
   { from, to }: Pick<CreateAppointmentInput, "from" | "to">,
 ) => {
@@ -106,6 +143,8 @@ export const checkConflitTime = async (
     filter: {
       doctorId: id,
       status: AppointmentStatus.ACTIVE,
+      from,
+      to,
     },
   });
 
@@ -119,6 +158,4 @@ export const checkConflitTime = async (
     );
 
   // Loop throw all of the appointment and see confilition time
-
-  return;
 };

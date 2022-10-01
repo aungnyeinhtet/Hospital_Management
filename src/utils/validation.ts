@@ -98,3 +98,8 @@ export default function validateMyanmarPhone(
 
   return value;
 }
+
+export const isSameDay = (dateOne: Date, dateTwo: Date) =>
+  dateOne.getFullYear() === dateTwo.getFullYear() &&
+  dateOne.getMonth() === dateTwo.getMonth() &&
+  dateOne.getDate() === dateTwo.getDate();

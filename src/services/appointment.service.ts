@@ -98,3 +98,25 @@ export const update = async (
 export const deleteById = async (id: string): Promise<Appointment> => {
   return await appointmentRepository.deleteById(id);
 };
+
+/**
+ * find many given doctor appointments from the date
+ *
+ * @param from Date
+ * @param to Date
+ * @return Promise<Appointment>
+ */
+export const findManyActiveAppointmentsByDoctorId = async (
+  doctorId: string,
+  from: Date,
+  to: Date,
+): Promise<Appointment[]> => {
+  return await findMany({
+    filter: {
+      doctorId,
+      from,
+      to,
+      status: "ACTIVE",
+    },
+  });
+};

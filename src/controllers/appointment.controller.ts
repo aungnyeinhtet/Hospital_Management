@@ -53,17 +53,29 @@ export const create = async (req: Request, res: Response): Promise<void> => {
   );
 
   /**
+   * check requested doctor is avaliable on that time or not
+   */
+  await doctorService.checkDoctorIsAvaliableOrNot(doctorId, from, to);
+
+  /**
    * check doctor with {doctorID} is exists or not
    */
   await doctorService.findBydIdOrFail(doctorId);
 
   /**
-   * check doctor is avaliable request time or not
+   * get all of doctor appointment for given date
    */
-  await doctorService.checkConflitTime(doctorId, { from, to });
+  const activeAppointments =
+    await appointmentService.findManyActiveAppointmentsByDoctorId(
+      doctorId,
+      from,
+      to,
+    );
 
-  // TODO generate token number each day
-  const tokenNumber = 1;
+  console.log("activeAppointments", activeAppointments);
+
+  // generate token number each day
+  const tokenNumber = activeAppointments.length + 1;
 
   const appointment = await appointmentService.create({
     consultationType,

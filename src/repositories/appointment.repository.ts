@@ -31,6 +31,22 @@ export const findMany = async ({
                 patientId: filter.patientId,
               }
             : undefined,
+
+          filter && filter?.from
+            ? {
+                from: {
+                  gte: filter.from,
+                },
+              }
+            : undefined,
+
+          filter && filter?.to
+            ? {
+                to: {
+                  lte: filter.to,
+                },
+              }
+            : undefined,
         ],
       },
       take: Number(take) || DEFAULT_TAKE,
