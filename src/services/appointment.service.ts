@@ -5,11 +5,17 @@ import { FindManyAppointmentArgs } from "../dto/find-many-appointment.args";
 import { UpdateAppointmentInput } from "../dto/update-appointment.input";
 import * as appointmentRepository from "../repositories/appointment.repository";
 
+/**
+ * find many appointment
+ *
+ * @param param0 FindManyAppointmentArgs
+ * @returns Promise<Appointment[]>
+ */
 export const findMany = async ({
   take,
   skip,
   filter,
-}: FindManyAppointmentArgs) => {
+}: FindManyAppointmentArgs): Promise<Appointment[]> => {
   return await appointmentRepository.findMany({ take, skip, filter });
 };
 
@@ -19,7 +25,7 @@ export const findMany = async ({
  * @param id string
  * @returns Promise<Appointment>
  */
-export const findById = async (id: string) => {
+export const findById = async (id: string): Promise<Appointment> => {
   return await appointmentRepository.findById(id);
 };
 
@@ -38,6 +44,12 @@ export const findByIdOrFail = async (id: string): Promise<Appointment> => {
   return appointment;
 };
 
+/**
+ * create new appointment
+ *
+ * @param param0 CreateAppointmentInput
+ * @returns Promise<Appointment>
+ */
 export const create = async ({
   consultationType,
   reason,
@@ -46,7 +58,7 @@ export const create = async ({
   tokenNumber,
   patientId,
   doctorId,
-}: CreateAppointmentInput) => {
+}: CreateAppointmentInput): Promise<Appointment> => {
   return await appointmentRepository.create({
     consultationType,
     reason,
@@ -58,10 +70,17 @@ export const create = async ({
   });
 };
 
+/**
+ * update appointment
+ *
+ * @param id string
+ * @param param1 UpdateAppointmentInput
+ * @returns Promise<Appointment>
+ */
 export const update = async (
   id: string,
   { consultationType, from, to, status }: UpdateAppointmentInput,
-) => {
+): Promise<Appointment> => {
   return await appointmentRepository.update(id, {
     consultationType,
     from,
@@ -70,6 +89,12 @@ export const update = async (
   });
 };
 
-export const deleteById = async (id: string) => {
+/**
+ * delete appointment by id
+ *
+ * @param id string
+ * @returns Promise<Appointment>
+ */
+export const deleteById = async (id: string): Promise<Appointment> => {
   return await appointmentRepository.deleteById(id);
 };

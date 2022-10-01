@@ -1,4 +1,4 @@
-import { AppointmentStatus } from "@prisma/client";
+import { AppointmentStatus, Doctor } from "@prisma/client";
 import { NotFound, UnprocessableEntity } from "http-errors";
 import { MAX_SEE_PATIENT_PER_DAY } from "../config/constants";
 import { CreateAppointmentInput } from "../dto/create-appointment.input";
@@ -34,11 +34,23 @@ export const create = async ({
   });
 };
 
-export const findBydId = async (id: string) => {
+/**
+ * find record by id
+ *
+ * @param id string
+ * @returns Promise<Doctor>
+ */
+export const findBydId = async (id: string): Promise<Doctor> => {
   return await doctorRepository.findById(id);
 };
 
-export const findBydIdOrFail = async (id: string) => {
+/**
+ * find record by id or fail
+ *
+ * @param id string
+ * @returns Promise<Doctor>
+ */
+export const findBydIdOrFail = async (id: string): Promise<Doctor> => {
   const doctor = await findBydId(id);
 
   if (!doctor) throw new NotFound(`Doctor not found with id ${id}`);
@@ -46,10 +58,17 @@ export const findBydIdOrFail = async (id: string) => {
   return doctor;
 };
 
+/**
+ * update record by id
+ *
+ * @param id string
+ * @param param1 UpdateDoctorInput
+ * @returns Promise<Doctor>
+ */
 export const update = async (
   id: string,
   { name, degree, biography, address, specialistId }: UpdateDoctorInput,
-) => {
+): Promise<Doctor> => {
   return await doctorRepository.update(id, {
     name,
     degree,
@@ -59,16 +78,27 @@ export const update = async (
   });
 };
 
-export const deleteById = async (id: string) => {
+/**
+ * delete record by id
+ *
+ * @param id string
+ * @returns Promise<Doctor>
+ */
+export const deleteById = async (id: string): Promise<Doctor> => {
   return await doctorRepository.deleteById(id);
 };
 
+/**
+ * check doctor conflit time for given time
+ *
+ * @param id string
+ * @param param1 CreateAppointmentInput
+ * @returns Promise<any>
+ */
 export const checkConflitTime = async (
   id: string,
   { from, to }: Pick<CreateAppointmentInput, "from" | "to">,
 ) => {
-  await findBydIdOrFail(id);
-
   /**
    * find doctor active appointments, request day
    */
