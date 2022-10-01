@@ -73,13 +73,22 @@ export const checkDoctorIsAvaliableOrNot = async (
   /** TODO, here we will get list of doctor avaliable time for today,
    *  for now we use hard coded value
    */
+  const doctorStartHour = 17; // 5PM
+  const doctorEndHour = 20; // 8PM
+
   const date = new Date();
-  const fromHour = date.setUTCHours(17); // 5PM
-  const toHour = date.setUTCHours(20); // 8PM
+  const doctorFromHour = date.setHours(doctorStartHour).toLocaleString();
+  const doctorToHour = date.setHours(doctorEndHour).toLocaleString();
+
+  const localeTimeStringFrom = new Date(from).toLocaleTimeString();
+  const localeTimeStringTo = new Date(to).toLocaleTimeString();
 
   // console.log("from", getHours(new Date(from)));
-  console.log("fromHour", fromHour);
-  console.log("toHour", toHour);
+  console.log("doctorFromHour", doctorFromHour);
+  console.log("doctorToHour", doctorToHour);
+
+  console.log("localeTimeStringFrom", localeTimeStringFrom);
+  console.log("localeTimeStringTo", localeTimeStringTo);
 
   // check given two date is same day or not
   if (!isSameDay(from, to))
@@ -87,7 +96,11 @@ export const checkDoctorIsAvaliableOrNot = async (
       "Sorry!, invalid appointment schedule, please make sure your from and to date is at the same day and specify allowed time",
     );
 
-  // if (from.getHours() < fromHour || to.getHours() > toHour)
+  // TODO here we will validate user input from and to with doctor avaliable time
+  // if (
+  //   localeTimeStringFrom < doctorFromHour ||
+  //   localeTimeStringTo > doctorToHour
+  // )
   //   throw new BadRequest(
   //     "Sorry!, this doctor is not avaliable schedule for this time, avaliable time is between  5PM - 8PM everyday",
   //   );
