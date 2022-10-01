@@ -58,6 +58,11 @@ export const create = async (req: Request, res: Response): Promise<void> => {
   await doctorService.checkDoctorIsAvaliableOrNot(doctorId, from, to);
 
   /**
+   * check booking with doctor is overlapping time or not
+   */
+  await appointmentService.checkBookingOverlapping(doctorId, from, to);
+
+  /**
    * check doctor with {doctorID} is exists or not
    */
   await doctorService.findBydIdOrFail(doctorId);

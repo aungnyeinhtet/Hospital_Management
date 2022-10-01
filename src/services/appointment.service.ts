@@ -120,3 +120,16 @@ export const findManyActiveAppointmentsByDoctorId = async (
     },
   });
 };
+
+export const checkBookingOverlapping = async (
+  doctorId: string,
+  from: Date,
+  to: Date,
+) => {
+  // TODO find existing appointment wih given from time
+  // const appointment =  await findMany({
+  //   filter: {
+  //     from:
+  //   }
+  // })
+};
