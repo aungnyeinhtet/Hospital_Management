@@ -6,8 +6,8 @@ import { CreateDoctorInput } from "../dto/create-doctor.input";
 import { FindManyDoctorArgs } from "../dto/find-many-doctor.args";
 import { UpdateDoctorInput } from "../dto/update-doctor.input";
 import * as doctorRepository from "../repositories/doctor.repository";
+import * as appointmentService from "../services/appointment.service";
 import { isSameDay } from "../utils/validation";
-import * as appointmentService from "./appointment.service";
 
 /**
  * find many doctor
@@ -73,19 +73,15 @@ export const checkDoctorIsAvaliableOrNot = async (
   /** TODO, here we will get list of doctor avaliable time for today,
    *  for now we use hard coded value
    */
-  const doctorStartHour = 17; // 5PM
-  const doctorEndHour = 20; // 8PM
-
-  const date = new Date();
-  const doctorFromHour = date.setHours(doctorStartHour).toLocaleString();
-  const doctorToHour = date.setHours(doctorEndHour).toLocaleString();
+  const doctorStartHour = "5:00:00 PM"; // 5PM
+  const doctorEndHour = "8:00:00 PM"; // 8PM
 
   const localeTimeStringFrom = new Date(from).toLocaleTimeString();
   const localeTimeStringTo = new Date(to).toLocaleTimeString();
 
   // console.log("from", getHours(new Date(from)));
-  console.log("doctorFromHour", doctorFromHour);
-  console.log("doctorToHour", doctorToHour);
+  // console.log("doctorFromHour", doctorFromHour);
+  // console.log("doctorToHour", doctorToHour);
 
   console.log("localeTimeStringFrom", localeTimeStringFrom);
   console.log("localeTimeStringTo", localeTimeStringTo);
@@ -98,11 +94,11 @@ export const checkDoctorIsAvaliableOrNot = async (
 
   // TODO here we will validate user input from and to with doctor avaliable time
   // if (
-  //   localeTimeStringFrom < doctorFromHour ||
-  //   localeTimeStringTo > doctorToHour
+  //   localeTimeStringFrom < doctorStartHour ||
+  //   localeTimeStringTo > doctorEndHour
   // )
   //   throw new BadRequest(
-  //     "Sorry!, this doctor is not avaliable schedule for this time, avaliable time is between  5PM - 8PM everyday",
+  //     `Sorry!, this doctor is not avaliable schedule for this time, avaliable time is between  ${doctorStartHour} - ${doctorEndHour} everyday`,
   //   );
 
   await isFullOfSchedule(doctorId, { from, to });
